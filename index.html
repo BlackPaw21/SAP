@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC Analyst Professional Training Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #333333;
+            --bg-elevated: #3d3d3d;
+            --accent-primary: #ff8c00;
+            --accent-secondary: #ff6b00;
+            --text-primary: #e8e8e8;
+            --text-secondary: #b8b8b8;
+            --text-muted: #888888;
+            --success: #10b981;
+            --warning: #ffa500;
+            --error: #ef4444;
+            --critical: #dc2626;
+            --border-color: #4a4a4a;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)" /></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: white;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 500;
+        }
+
+        .progress-container {
+            background: var(--bg-tertiary);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .score-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .timer-display.warning {
+            color: var(--warning);
+            animation: pulse 1s infinite;
+        }
+
+        .timer-display.critical {
+            color: var(--error);
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .section {
+            background: var(--bg-tertiary);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+
+        .question-block {
+            background: var(--bg-elevated);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-secondary);
+        }
+
+        .question-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: var(--accent-primary);
+            text-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        /* Removed old badge styles - replaced with achievement system */
+
+        .achievements-btn {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #ff6b00 100%);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .achievements-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
+        }
+
+        .achievements-btn:active {
+            transform: translateY(0);
+        }
+
+        .question-text {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            background: rgba(0, 212, 255, 0.05);
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .code-block {
+            background: #0d1117;
+            border: 2px solid #30363d;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            overflow-x: auto;
+            line-height: 1.8;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .code-block::before {
+            content: '◉ ' attr(data-label);
+            position: absolute;
+            top: -12px;
+            left: 12px;
+            background: #0d1117;
+            padding: 0 8px;
+            color: #8b949e;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .code-block code {
+            color: #79c0ff;
+            font-weight: 500;
+        }
+
+        .log-entry {
+            display: block;
+            padding: 0.25rem 0;
+            color: #c9d1d9;
+        }
+
+        .log-entry.critical {
+            color: #ff6b6b;
+            font-weight: 500;
+        }
+
+        .log-entry.warning {
+            color: #ffd93d;
+        }
+
+        .log-entry.info {
+            color: #6bcf7f;
+        }
+
+        .log-timestamp {
+            color: #8b949e;
+        }
+
+        .log-ip {
+            color: #79c0ff;
+        }
+
+        .log-port {
+            color: #d2a8ff;
+        }
+
+        .log-proto {
+            color: #ffa657;
+        }
+
+        .answer-option {
+            display: block;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .answer-option:hover {
+            border-color: var(--accent-primary);
+            background: var(--bg-secondary);
+        }
+
+        .answer-option input[type="radio"],
+        .answer-option input[type="checkbox"] {
+            margin-right: 0.75rem;
+        }
+
+        .dropdown-select {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-select:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .dropdown-select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+
+        .check-answer-btn {
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .check-answer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
+        }
+
+        .check-answer-btn:active {
+            transform: translateY(0);
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            color: var(--success);
+        }
+
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--error);
+            color: var(--error);
+        }
+
+        .feedback.partial {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+            color: var(--warning);
+        }
+
+        .submit-container {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            z-index: 1000;
+        }
+
+        #back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            color: white;
+            border: none;
+            padding: 1.25rem 3rem;
+            border-radius: 8px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(255, 140, 0, 0.4);
+        }
+
+        .final-score {
+            background: var(--bg-elevated);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            border: 2px solid var(--accent-primary);
+        }
+
+        .final-score h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .final-score .score {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+        }
+
+        .input-group {
+            margin: 1rem 0;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        /* Inline code in questions */
+        code {
+            background: #161b22;
+            color: #79c0ff;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            border: 1px solid #30363d;
+            display: inline-block;
+            line-height: 1.6;
+        }
+
+        /* Multi-line code blocks in questions */
+        .question-text code {
+            display: block;
+            background: #0d1117;
+            padding: 1rem;
+            margin: 0.75rem 0;
+            white-space: pre-wrap;
+            border: 2px solid #30363d;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: #0d1117;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        th, td {
+            padding: 0.85rem;
+            text-align: left;
+            border-bottom: 1px solid #30363d;
+        }
+
+        th {
+            background: #161b22;
+            font-weight: 600;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background: #161b22;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Tab Navigation */
+        .tab-container {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-nav {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.75rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tab-btn {
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-color);
+            padding: 0.85rem 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            text-align: center;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+        }
+
+        .tab-btn.active {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            background: rgba(0, 212, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .tab-btn .tab-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .tab-btn .tab-label {
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .tab-btn .tab-badge {
+            display: block;
+            background: var(--bg-primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            color: var(--accent-primary);
+            margin-top: 0.15rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-progress {
+            font-size: 0.8rem;
+            color: var(--success);
+            margin-left: 0.5rem;
+        }
+
+        /* Responsive tabs for smaller screens */
+        @media (max-width: 1200px) {
+            .tab-nav {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tab-nav {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tab-btn {
+                padding: 0.7rem 0.4rem;
+            }
+
+            .tab-btn .tab-icon {
+                font-size: 1.3rem;
+            }
+
+            .tab-btn .tab-label {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>SOC Analyst Professional Training</h1>
+                <p>Tier-1 Security Operations Center Assessment | 90 Minutes | 100 Points</p>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-info">
+                <div style="display: flex; align-items: center; gap: 1.5rem;">
+                    <span style="font-weight: 600;">Your Progress</span>
+                    <div id="achievement-badge" style="display: none; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(255, 140, 0, 0.1); border-radius: 6px; border: 1px solid rgba(255, 140, 0, 0.3);"></div>
+                </div>
+                <div style="display: flex; gap: 2rem; align-items: center;">
+                    <button onclick="showAchievementsModal()" class="achievements-btn">
+                        <span style="font-size: 1.1rem;">🏆</span>
+                        <span>Achievements</span>
+                        <div id="achievement-badge-count" style="display: none; background: rgba(255, 255, 255, 0.25); padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">0</div>
+                    </button>
+                    <span class="timer-display" id="timer-display">⏱️ 90:00</span>
+                    <span class="score-display"><span id="current-score">0</span> / 100 points</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Achievements Modal -->
+        <div id="achievements-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(8px); padding: 2rem;">
+            <div style="background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); border: 3px solid var(--accent-color); border-radius: 20px; max-width: 950px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 140, 0, 0.3); overflow: hidden;">
+
+                <!-- Modal Header -->
+                <div style="background: linear-gradient(135deg, rgba(255, 140, 0, 0.15) 0%, rgba(255, 107, 0, 0.1) 100%); padding: 1.75rem 2rem; border-bottom: 2px solid rgba(255, 140, 0, 0.3);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h2 style="margin: 0 0 0.3rem 0; color: var(--accent-color); font-size: 2rem; display: flex; align-items: center; gap: 1rem; text-shadow: 0 2px 10px rgba(255, 140, 0, 0.3);">
+                                🏆 Achievement Progress
+                            </h2>
+                            <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Track your mastery across all categories</p>
+                        </div>
+                        <button onclick="closeAchievementsModal()" style="background: rgba(255, 255, 255, 0.08); border: 2px solid var(--border-color); color: var(--text-primary); width: 45px; height: 45px; border-radius: 50%; font-size: 1.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; font-weight: 300; line-height: 1;" onmouseover="this.style.background='rgba(255, 140, 0, 0.25)'; this.style.borderColor='var(--accent-color)'; this.style.transform='rotate(90deg)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.borderColor='var(--border-color)'; this.style.transform='rotate(0)'">
+                            ×
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category Tabs -->
+                <div style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-color); padding: 0.5rem 1.5rem; display: flex; gap: 0.25rem; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;">
+                    <style>
+                        .achievement-tab-container::-webkit-scrollbar { display: none; }
+                        .achievement-tab {
+                            background: transparent;
+                            border: none;
+                            color: var(--text-muted);
+                            padding: 0.9rem 1.2rem;
+                            cursor: pointer;
+                            font-weight: 600;
+                            font-size: 0.9rem;
+                            border-bottom: 3px solid transparent;
+                            transition: all 0.3s ease;
+                            white-space: nowrap;
+                            border-radius: 8px 8px 0 0;
+                        }
+                        .achievement-tab:hover {
+                            background: rgba(255, 140, 0, 0.1);
+                            color: var(--accent-color);
+                        }
+                        .achievement-tab.active {
+                            background: linear-gradient(135deg, rgba(255, 140, 0, 0.15) 0%, rgba(255, 107, 0, 0.1) 100%);
+                            color: var(--accent-color);
+                            border-bottom-color: var(--accent-color);
+                        }
+                    </style>
+                    <button class="achievement-tab active" onclick="switchAchievementTab('networking')" data-category="networking">🌐 Networking</button>
+                    <button class="achievement-tab" onclick="switchAchievementTab('webattacks')" data-category="webattacks">🔓 Web Attacks</button>
+                    <button class="achievement-tab" onclick="switchAchievementTab('firewall')" data-category="firewall">🛡️ Firewall</button>
+                    <button class="achievement-tab" onclick="switchAchievementTab('malware')" data-category="malware">🦠 Malware</button>
+                    <button class="achievement-tab" onclick="switchAchievementTab('devices')" data-category="devices">📡 Devices</button>
+                    <button class="achievement-tab" onclick="switchAchievementTab('ports')" data-category="ports">🔌 Ports</button>
+                    <button class="achievement-tab" onclick="switchAchievementTab('logs')" data-category="logs">📊 Logs</button>
+                </div>
+
+                <!-- Modal Body -->
+                <div id="achievements-list" style="padding: 2rem; overflow-y: auto; flex: 1; scrollbar-width: none; -ms-overflow-style: none;">
+                    <style>
+                        #achievements-list::-webkit-scrollbar { display: none; }
+                    </style>
+                    <!-- Achievement items inserted by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="switchTab('networking')">
+                    <span class="tab-icon">🌐</span>
+                    <span class="tab-label">Networking</span>
+                    <span class="tab-badge">25pts</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('webattacks')">
+                    <span class="tab-icon">🔓</span>
+                    <span class="tab-label">Web Attacks</span>
+                    <span class="tab-badge">30pts</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('firewall')">
+                    <span class="tab-icon">🛡️</span>
+                    <span class="tab-label">Firewall</span>
+                    <span class="tab-badge">25pts</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('malware')">
+                    <span class="tab-icon">🦠</span>
+                    <span class="tab-label">Malware</span>
+                    <span class="tab-badge">25pts</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('devices')">
+                    <span class="tab-icon">📡</span>
+                    <span class="tab-label">Devices</span>
+                    <span class="tab-badge">15pts</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('ports')">
+                    <span class="tab-icon">🔌</span>
+                    <span class="tab-label">Ports</span>
+                    <span class="tab-badge">20pts</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('logs')">
+                    <span class="tab-icon">📊</span>
+                    <span class="tab-label">Log Analysis</span>
+                    <span class="tab-badge">30pts</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="content" id="quiz-content">
+            <!-- Questions will be dynamically inserted here -->
+        </div>
+
+        <div class="submit-container">
+            <button class="submit-btn" onclick="showFinalScore()">Submit Assessment</button>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+
+    <!-- External Question Database -->
+    <script src="questions_data.js"></script>
+
+    <!-- Main Application Logic -->
+    <script>
+        // Question Bank with randomization
+        let totalScore = 0;
+        const maxScore = 100;
+        const questionScores = {};
+        const answeredQuestions = new Set(); // Track unique questions answered
+
+        // Track answered questions by category
+        const categoryProgress = {
+            networking: new Set(),
+            webattacks: new Set(),
+            firewall: new Set(),
+            malware: new Set(),
+            devices: new Set(),
+            ports: new Set(),
+            logs: new Set()
+        };
+
+        // Achievement tiers per category (50 questions each)
+        const categoryAchievements = [
+            { questions: 5, name: 'Novice', icon: '🥉', color: '#cd7f32' },
+            { questions: 10, name: 'Apprentice', icon: '📚', color: '#8b949e' },
+            { questions: 15, name: 'Practitioner', icon: '⭐', color: '#58a6ff' },
+            { questions: 20, name: 'Specialist', icon: '🎯', color: '#3fb950' },
+            { questions: 25, name: 'Expert', icon: '💎', color: '#d29922' },
+            { questions: 30, name: 'Professional', icon: '🥈', color: '#c0c0c0' },
+            { questions: 35, name: 'Master', icon: '👑', color: '#ffd700' },
+            { questions: 40, name: 'Veteran', icon: '⚔️', color: '#a371f7' },
+            { questions: 45, name: 'Elite', icon: '🦅', color: '#ff6b6b' },
+            { questions: 50, name: 'Legend', icon: '🏆', color: '#ff0000' }
+        ];
+
+        const categoryInfo = {
+            networking: { name: 'Networking', icon: '🌐' },
+            webattacks: { name: 'Web Attacks', icon: '🔓' },
+            firewall: { name: 'Firewall', icon: '🛡️' },
+            malware: { name: 'Malware', icon: '🦠' },
+            devices: { name: 'Devices', icon: '📡' },
+            ports: { name: 'Ports & Protocols', icon: '🔌' },
+            logs: { name: 'Log Analysis', icon: '📊' }
+        };
+
+        function getCategoryFromQuestionId(qid) {
+            if (qid.startsWith('net')) return 'networking';
+            if (qid.startsWith('web')) return 'webattacks';
+            if (qid.startsWith('fw')) return 'firewall';
+            if (qid.startsWith('mal')) return 'malware';
+            if (qid.startsWith('dev')) return 'devices';
+            if (qid.startsWith('port')) return 'ports';
+            if (qid.startsWith('log')) return 'logs';
+            return null;
+        }
+
+        function updateAchievements() {
+            const questionsAnswered = answeredQuestions.size;
+
+            // Update badge counter on button
+            const badgeCount = document.getElementById('achievement-badge-count');
+            if (badgeCount && questionsAnswered > 0) {
+                badgeCount.textContent = questionsAnswered;
+                badgeCount.style.display = 'block';
+            }
+
+            // Save progress to localStorage
+            saveAchievementProgress();
+        }
+
+        function saveAchievementProgress() {
+            const progressData = {
+                networking: Array.from(categoryProgress.networking),
+                webattacks: Array.from(categoryProgress.webattacks),
+                firewall: Array.from(categoryProgress.firewall),
+                malware: Array.from(categoryProgress.malware),
+                devices: Array.from(categoryProgress.devices),
+                ports: Array.from(categoryProgress.ports),
+                logs: Array.from(categoryProgress.logs),
+                timestamp: Date.now()
+            };
+            localStorage.setItem('achievementProgress', JSON.stringify(progressData));
+        }
+
+        function loadAchievementProgress() {
+            const saved = localStorage.getItem('achievementProgress');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    // Load category progress
+                    Object.keys(categoryProgress).forEach(category => {
+                        if (data[category]) {
+                            data[category].forEach(qid => {
+                                categoryProgress[category].add(qid);
+                                answeredQuestions.add(qid);
+                            });
+                        }
+                    });
+                    updateAchievements();
+                } catch (e) {
+                    console.error('Error loading achievement progress:', e);
+                }
+            }
+        }
+
+        let currentAchievementCategory = 'networking';
+
+        function switchAchievementTab(category) {
+            currentAchievementCategory = category;
+
+            // Update tab styles
+            document.querySelectorAll('.achievement-tab').forEach(tab => {
+                if (tab.dataset.category === category) {
+                    tab.classList.add('active');
+                    tab.style.color = 'var(--accent-color)';
+                    tab.style.borderBottomColor = 'var(--accent-color)';
+                } else {
+                    tab.classList.remove('active');
+                    tab.style.color = 'var(--text-secondary)';
+                    tab.style.borderBottomColor = 'transparent';
+                }
+            });
+
+            // Render achievements for this category
+            renderCategoryAchievements(category);
+        }
+
+        function renderCategoryAchievements(category) {
+            const listContainer = document.getElementById('achievements-list');
+            const questionsAnswered = categoryProgress[category].size;
+            const totalQuestions = 50;
+
+            let html = `
+                <div style="margin-bottom: 2rem; padding: 1.5rem; background: var(--bg-secondary); border-radius: 12px; border: 2px solid var(--border-color);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.5rem;">
+                                ${categoryInfo[category].icon} ${categoryInfo[category].name}
+                            </h3>
+                            <p style="margin: 0; color: var(--text-muted);">
+                                <strong style="color: var(--accent-color); font-size: 1.2rem;">${questionsAnswered}</strong> / ${totalQuestions} unique questions answered
+                            </p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">
+                                ${categoryAchievements.find(a => questionsAnswered >= a.questions)?.icon || '🔒'}
+                            </div>
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">
+                                ${Math.round((questionsAnswered / totalQuestions) * 100)}% Complete
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Build achievements list for this category
+            categoryAchievements.forEach((achievement, index) => {
+                const isUnlocked = questionsAnswered >= achievement.questions;
+                const isNext = !isUnlocked && (index === 0 || questionsAnswered >= categoryAchievements[index - 1].questions);
+
+                html += `
+                    <div style="background: ${isUnlocked ? 'linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(255, 107, 0, 0.05) 100%)' : 'var(--bg-secondary)'};
+                                border: 2px solid ${isUnlocked ? achievement.color : 'var(--border-color)'};
+                                border-radius: 12px;
+                                padding: 1.25rem;
+                                margin-bottom: 0.75rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 1.25rem;
+                                ${isUnlocked ? 'box-shadow: 0 4px 12px rgba(255, 140, 0, 0.2);' : 'opacity: 0.7;'}
+                                transition: all 0.3s ease;">
+
+                        <div style="font-size: 2.5rem; ${!isUnlocked ? 'filter: grayscale(100%);' : ''}">${achievement.icon}</div>
+
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                                <h4 style="margin: 0; color: ${isUnlocked ? achievement.color : 'var(--text-muted)'}; font-size: 1.1rem;">
+                                    ${achievement.name}
+                                </h4>
+                                ${isUnlocked ? '<span style="background: ' + achievement.color + '; color: white; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;">Unlocked</span>' : ''}
+                                ${isNext && !isUnlocked ? '<span style="background: rgba(255, 140, 0, 0.2); color: var(--accent-color); padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;">Next Goal</span>' : ''}
+                            </div>
+
+                            <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.6rem;">
+                                ${achievement.questions} unique ${categoryInfo[category].name} questions
+                            </div>
+
+                            <div style="background: var(--bg-primary); border-radius: 20px; height: 6px; overflow: hidden; margin-bottom: 0.4rem;">
+                                <div style="background: ${isUnlocked ? achievement.color : 'var(--accent-color)'};
+                                            height: 100%;
+                                            width: ${Math.min(100, (questionsAnswered / achievement.questions) * 100)}%;
+                                            transition: width 0.5s ease;
+                                            ${isUnlocked ? '' : 'opacity: 0.6;'}">
+                                </div>
+                            </div>
+
+                            <div style="color: var(--text-muted); font-size: 0.75rem;">
+                                ${isUnlocked ? '✓ Achievement earned!' : `${Math.max(0, achievement.questions - questionsAnswered)} more needed`}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            listContainer.innerHTML = html;
+        }
+
+        function showAchievementsModal() {
+            const modal = document.getElementById('achievements-modal');
+            modal.style.display = 'flex';
+            switchAchievementTab(currentAchievementCategory); // Show current category
+        }
+
+        function closeAchievementsModal() {
+            const modal = document.getElementById('achievements-modal');
+            modal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('achievements-modal');
+            if (event.target === modal) {
+                closeAchievementsModal();
+            }
+        });
+
+        // Timer functionality (90 minutes = 5400 seconds)
+        let timeRemaining = 5400;
+        let timerInterval;
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert('⏰ Time is up! Your assessment will be automatically submitted.');
+                    showFinalScore();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const timerElement = document.getElementById('timer-display');
+            timerElement.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            // Change color based on time remaining
+            timerElement.classList.remove('warning', 'critical');
+            if (timeRemaining <= 300) { // Last 5 minutes
+                timerElement.classList.add('critical');
+            } else if (timeRemaining <= 900) { // Last 15 minutes
+                timerElement.classList.add('warning');
+            }
+        }
+
+        // Utility function to shuffle array
+        function shuffle(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Select random questions from a category
+        function selectRandomQuestions(questions, count) {
+            if (!questions || questions.length === 0) {
+                return [];
+            }
+            const shuffled = shuffle(questions);
+            return shuffled.slice(0, Math.min(count, shuffled.length));
+        }
+
+        // Question database is loaded from external file: questions_data.js
+        // This keeps the HTML clean and makes question management easier
+
+        // Render all questions
+        function renderQuiz() {
+            const content = document.getElementById('quiz-content');
+            let html = '';
+
+            // Select 5 questions from each category (7 categories × 5 questions = 35 questions total)
+            const selectedNetworking = selectRandomQuestions(questionBank.networking, 5);
+            const selectedWebAttacks = selectRandomQuestions(questionBank.webattacks, 5);
+            const selectedFirewall = selectRandomQuestions(questionBank.firewall, 5);
+            const selectedMalware = selectRandomQuestions(questionBank.malware, 5);
+            const selectedDevices = selectRandomQuestions(questionBank.devices, 5);
+            const selectedPorts = selectRandomQuestions(questionBank.ports, 5);
+            const selectedLogs = selectRandomQuestions(logAnalysisSection.questions, 5);
+
+            // Debug: Check if ports loaded
+            console.log('Ports available:', questionBank.ports ? questionBank.ports.length : 0);
+            console.log('Selected ports:', selectedPorts.length);
+
+            // Normalize points to total exactly 100
+            const allQuestions = [
+                ...selectedNetworking,
+                ...selectedWebAttacks,
+                ...selectedFirewall,
+                ...selectedMalware,
+                ...selectedDevices,
+                ...selectedPorts,
+                ...selectedLogs
+            ];
+
+            const rawTotal = allQuestions.reduce((sum, q) => sum + q.points, 0);
+            const scaleFactor = 100 / rawTotal;
+
+            // Scale all question points proportionally
+            allQuestions.forEach(q => {
+                q.scaledPoints = Math.round(q.points * scaleFactor);
+            });
+
+            // Adjust for rounding errors to ensure exactly 100 points
+            const scaledTotal = allQuestions.reduce((sum, q) => sum + q.scaledPoints, 0);
+            if (scaledTotal !== 100 && allQuestions.length > 0) {
+                allQuestions[0].scaledPoints += (100 - scaledTotal);
+            }
+
+            // Networking Section
+            html += `<div id="tab-networking" class="tab-content active">
+                <div class="section">
+                    <h2>Section 1: Network Fundamentals & Protocols (${selectedNetworking.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+            selectedNetworking.forEach((q, idx) => {
+                html += renderQuestion(q, idx + 1, selectedNetworking.length);
+            });
+            html += `</div></div>`;
+
+            // Web Attacks Section
+            html += `<div id="tab-webattacks" class="tab-content">
+                <div class="section">
+                    <h2>Section 2: Web Application Security (${selectedWebAttacks.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+            selectedWebAttacks.forEach((q, idx) => {
+                html += renderQuestion(q, idx + 1, selectedWebAttacks.length);
+            });
+            html += `</div></div>`;
+
+            // Firewall Section
+            html += `<div id="tab-firewall" class="tab-content">
+                <div class="section">
+                    <h2>Section 3: Firewall Rules & Network Security (${selectedFirewall.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+            selectedFirewall.forEach((q, idx) => {
+                html += renderQuestion(q, idx + 1, selectedFirewall.length);
+            });
+            html += `</div></div>`;
+
+            // Malware Section
+            html += `<div id="tab-malware" class="tab-content">
+                <div class="section">
+                    <h2>Section 4: Malware Analysis & Threat Detection (${selectedMalware.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+            selectedMalware.forEach((q, idx) => {
+                html += renderQuestion(q, idx + 1, selectedMalware.length);
+            });
+            html += `</div></div>`;
+
+            // Devices Section
+            html += `<div id="tab-devices" class="tab-content">
+                <div class="section">
+                    <h2>Section 5: Security Infrastructure (${selectedDevices.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+            selectedDevices.forEach((q, idx) => {
+                html += renderQuestion(q, idx + 1, selectedDevices.length);
+            });
+            html += `</div></div>`;
+
+            // Ports Section
+            html += `<div id="tab-ports" class="tab-content">
+                <div class="section">
+                    <h2>Section 6: Ports & Protocols (${selectedPorts.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+            selectedPorts.forEach((q, idx) => {
+                html += renderQuestion(q, idx + 1, selectedPorts.length);
+            });
+            html += `</div></div>`;
+
+            // Log Analysis Section
+            html += `<div id="tab-logs" class="tab-content">`;
+            html += renderLogAnalysis(selectedLogs);
+            html += `</div>`;
+
+            content.innerHTML = html;
+        }
+
+        function renderQuestion(q, index, total) {
+            let html = `<div class="question-block">
+                <div class="question-title">
+                    <span>Question ${index}/${total}: ${q.title} (${q.scaledPoints || q.points} points)</span>
+                </div>
+                <div class="question-text">${q.question}</div>`;
+
+            if (q.type === 'radio') {
+                const shuffledOptions = shuffle(q.options);
+                shuffledOptions.forEach(opt => {
+                    html += `<label class="answer-option">
+                        <input type="radio" name="${q.id}" value="${opt.value}">
+                        ${opt.text}
+                    </label>`;
+                });
+            } else if (q.type === 'checkbox') {
+                const shuffledOptions = shuffle(q.options);
+                shuffledOptions.forEach(opt => {
+                    html += `<label class="answer-option">
+                        <input type="checkbox" name="${q.id}" value="${opt.value}">
+                        ${opt.text}
+                    </label>`;
+                });
+            } else if (q.type === 'textarea') {
+                html += `<textarea id="${q.id}" placeholder="${q.placeholder}"></textarea>`;
+            } else if (q.type === 'matching') {
+                q.pairs.forEach(pair => {
+                    html += `<div style="margin: 1rem 0;">
+                        <label class="input-label">${pair.label}</label>
+                        <select class="dropdown-select" id="${pair.id}">
+                            <option value="">Select device...</option>`;
+                    pair.options.forEach(opt => {
+                        html += `<option value="${opt}">${opt}</option>`;
+                    });
+                    html += `</select></div>`;
+                });
+            }
+
+            html += `<button class="check-answer-btn" onclick="checkAnswer('${q.id}')">Check Answer</button>
+                <div id="feedback-${q.id}"></div>
+            </div>`;
+
+            return html;
+        }
+
+        function renderLogAnalysis(selectedQuestions) {
+            // Randomly select ONE log type to display
+            const logTypes = [
+                { key: 'firewall', title: 'Firewall Logs', label: 'FIREWALL LOGS' },
+                { key: 'webserver', title: 'Web Server Access Logs', label: 'WEB SERVER ACCESS' },
+                { key: 'windows', title: 'Windows Security Event Logs', label: 'WINDOWS EVENTS' },
+                { key: 'dns', title: 'DNS Query Logs', label: 'DNS QUERIES' },
+                { key: 'email', title: 'Email Gateway Logs', label: 'EMAIL GATEWAY' }
+            ];
+            const selectedLog = logTypes[Math.floor(Math.random() * logTypes.length)];
+
+            // Calculate total points for the selected questions
+            const totalPoints = selectedQuestions.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0);
+
+            let html = `<div class="section">
+                <h2>Section 7: ${logAnalysisSection.title} (${totalPoints} points)</h2>
+                <p style="background: rgba(255, 165, 0, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--warning);">
+                    Analyze the ${selectedLog.title} below and identify security incidents. Focus on patterns, anomalies, and indicators of compromise.
+                </p>
+
+                <div class="question-block">
+                    <div class="question-title">${selectedLog.title}</div>
+                    <div class="code-block" data-label="${selectedLog.label}">${logAnalysisSection.logs[selectedLog.key]}</div>
+                </div>`;
+
+            selectedQuestions.forEach(q => {
+                html += `<div class="question-block">
+                    <div class="question-title">${q.question} (${q.scaledPoints || q.points} points)</div>`;
+
+                if (q.type === 'checkbox') {
+                    const shuffledOptions = shuffle(q.options);
+                    shuffledOptions.forEach(opt => {
+                        html += `<label class="answer-option">
+                            <input type="checkbox" name="${q.id}" value="${opt.value}">
+                            ${opt.text}
+                        </label>`;
+                    });
+                } else if (q.type === 'radio') {
+                    const shuffledOptions = shuffle(q.options);
+                    shuffledOptions.forEach(opt => {
+                        html += `<label class="answer-option">
+                            <input type="radio" name="${q.id}" value="${opt.value}">
+                            ${opt.text}
+                        </label>`;
+                    });
+                }
+
+                html += `<button class="check-answer-btn" onclick="checkAnswer('${q.id}')">Check Answer</button>
+                    <div id="feedback-${q.id}"></div>
+                </div>`;
+            });
+
+            html += `</div>`;
+            return html;
+        }
+
+        function checkAnswer(qid) {
+            let question = findQuestion(qid);
+            if (!question) return;
+
+            let userAnswer, isCorrect = false, points = 0;
+            let feedback = '';
+
+            if (question.type === 'radio') {
+                userAnswer = document.querySelector(`input[name="${qid}"]:checked`)?.value;
+                isCorrect = userAnswer === question.correct;
+                points = isCorrect ? (question.scaledPoints || question.points) : 0;
+
+                if (isCorrect) {
+                    feedback = `✓ Correct! You earned ${points} points.`;
+                    if (question.explanation) {
+                        feedback += `<br><small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">${question.explanation}</small>`;
+                    }
+                } else {
+                    feedback = `✗ Incorrect. `;
+                    if (question.explanation) {
+                        feedback += question.explanation;
+                    } else {
+                        feedback += `The correct answer is: ${question.correct}`;
+                    }
+                }
+            } else if (question.type === 'checkbox') {
+                userAnswer = Array.from(document.querySelectorAll(`input[name="${qid}"]:checked`)).map(cb => cb.value);
+                const correctSet = new Set(question.correct);
+                const userSet = new Set(userAnswer);
+
+                const correctSelections = userAnswer.filter(ans => correctSet.has(ans)).length;
+                const incorrectSelections = userAnswer.filter(ans => !correctSet.has(ans)).length;
+                const missedCorrect = question.correct.length - correctSelections;
+
+                const maxPoints = question.scaledPoints || question.points;
+                if (correctSelections === question.correct.length && incorrectSelections === 0) {
+                    isCorrect = true;
+                    points = maxPoints;
+                    feedback = `✓ Perfect! You earned ${points} points.`;
+                    if (question.explanation) {
+                        feedback += `<br><small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">${question.explanation}</small>`;
+                    }
+                } else {
+                    points = Math.max(0, Math.round((correctSelections / question.correct.length) * maxPoints) - incorrectSelections);
+                    feedback = `Partial credit: ${points}/${maxPoints} points. Correct: ${correctSelections}, Incorrect: ${incorrectSelections}, Missed: ${missedCorrect}`;
+                    if (question.explanation) {
+                        feedback += `<br><small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">${question.explanation}</small>`;
+                    }
+                }
+            } else if (question.type === 'matching') {
+                let correct = 0;
+                const maxPoints = question.scaledPoints || question.points;
+                question.pairs.forEach(pair => {
+                    const answer = document.getElementById(pair.id).value;
+                    if (answer === pair.correct) correct++;
+                });
+                points = Math.round((correct / question.pairs.length) * maxPoints);
+                isCorrect = correct === question.pairs.length;
+                feedback = isCorrect ?
+                    `Perfect matching! You earned ${points} points.` :
+                    `Partial credit: ${correct}/${question.pairs.length} correct. Points: ${points}/${maxPoints}`;
+            } else if (question.type === 'textarea') {
+                const maxPoints = question.scaledPoints || question.points;
+                points = maxPoints;
+                feedback = `Manual grading required. Potential: ${points} points.`;
+            }
+
+            // Track unique answered questions
+            answeredQuestions.add(qid);
+
+            // Track by category
+            const category = getCategoryFromQuestionId(qid);
+            if (category && categoryProgress[category]) {
+                categoryProgress[category].add(qid);
+            }
+
+            updateAchievements();
+
+            updateQuestionScore(qid, points);
+            displayFeedback(qid, feedback, isCorrect ? 'correct' : (points > 0 ? 'partial' : 'incorrect'));
+        }
+
+        function findQuestion(qid) {
+            for (let category in questionBank) {
+                const q = questionBank[category].find(q => q.id === qid);
+                if (q) return q;
+            }
+            const logQ = logAnalysisSection.questions.find(q => q.id === qid);
+            return logQ || null;
+        }
+
+        function updateQuestionScore(qid, points) {
+            const previousPoints = questionScores[qid] || 0;
+            questionScores[qid] = points;
+            totalScore = totalScore - previousPoints + points;
+
+            document.getElementById('current-score').textContent = totalScore;
+            document.getElementById('progress-fill').style.width = `${(totalScore / maxScore) * 100}%`;
+
+            // Auto-save progress
+            saveProgress();
+        }
+
+        // Auto-save functionality
+        function saveProgress() {
+            const progress = {
+                totalScore: totalScore,
+                questionScores: questionScores,
+                timeRemaining: timeRemaining,
+                timestamp: Date.now()
+            };
+            localStorage.setItem('socAnalystProgress', JSON.stringify(progress));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('socAnalystProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                // Only restore if less than 24 hours old
+                if (Date.now() - progress.timestamp < 24 * 60 * 60 * 1000) {
+                    if (confirm('📋 Found saved progress from previous session.\n\nWould you like to restore it?')) {
+                        totalScore = progress.totalScore || 0;
+                        Object.assign(questionScores, progress.questionScores || {});
+                        timeRemaining = progress.timeRemaining || 5400;
+                        document.getElementById('current-score').textContent = totalScore;
+                        const progressFill = document.getElementById('progress-fill');
+                        progressFill.style.width = `${(totalScore / maxScore) * 100}%`;
+                        updateTimerDisplay();
+                    } else {
+                        localStorage.removeItem('socAnalystProgress');
+                    }
+                }
+            }
+        }
+
+        function clearProgress() {
+            localStorage.removeItem('socAnalystProgress');
+        }
+
+        function displayFeedback(qid, message, type) {
+            const feedbackDiv = document.getElementById(`feedback-${qid}`);
+            feedbackDiv.className = `feedback ${type}`;
+            feedbackDiv.innerHTML = message;
+        }
+
+        function showFinalScore() {
+            // Confirmation dialog
+            const confirmed = confirm('⚠️ Are you sure you want to submit your assessment?\n\nOnce submitted, you cannot make any changes.\n\nClick OK to submit or Cancel to continue working.');
+
+            if (!confirmed) {
+                return; // User cancelled, don't submit
+            }
+
+            // Stop the timer
+            clearInterval(timerInterval);
+
+            // Clear saved progress
+            clearProgress();
+
+            const percentage = (totalScore / maxScore) * 100;
+            let grade, message;
+
+            if (percentage >= 90) {
+                grade = 'Excellent';
+                message = 'Outstanding performance! You demonstrate strong SOC analyst skills.';
+            } else if (percentage >= 80) {
+                grade = 'Very Good';
+                message = 'Great work! You have a solid understanding of SOC operations.';
+            } else if (percentage >= 70) {
+                grade = 'Pass';
+                message = 'You passed! Continue studying to strengthen your skills.';
+            } else {
+                grade = 'Needs Improvement';
+                message = 'Keep studying. Review network protocols, log analysis, and MITRE ATT&CK framework.';
+            }
+
+            alert(`✅ FINAL ASSESSMENT RESULTS\n\nScore: ${totalScore} / ${maxScore} (${percentage.toFixed(1)}%)\nGrade: ${grade}\n\n${message}\n\nTime Used: ${Math.floor((5400 - timeRemaining) / 60)} minutes`);
+        }
+
+        // Tab switching function
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            const selectedTab = document.getElementById(`tab-${tabName}`);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Back to top button functionality
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show/hide back to top button based on scroll position
+        window.addEventListener('scroll', function() {
+            const backToTopBtn = document.getElementById('back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+
+        // Initialize quiz on load
+        window.onload = function() {
+            // Verify questionBank loaded
+            console.log('Question Bank loaded:', typeof questionBank);
+            console.log('Categories:', Object.keys(questionBank));
+            console.log('Ports questions:', questionBank.ports);
+
+            loadAchievementProgress(); // Load achievement progress from localStorage
+            loadProgress(); // Check for saved progress first
+            renderQuiz();
+            startTimer();
+        };
+    </script>
+</body>
+</html>
