@@ -363,18 +363,21 @@
 
         .answer-option {
             display: block;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
+            padding: 1rem;
+            margin: 0.75rem 0;
             background: var(--bg-tertiary);
             border: 2px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            font-size: 1rem;
         }
 
         .answer-option:hover {
             border-color: var(--accent-primary);
             background: var(--bg-secondary);
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(255, 140, 0, 0.2);
         }
 
         .answer-option input[type="radio"],
@@ -409,46 +412,64 @@
             background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
             color: white;
             border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 6px;
+            padding: 0.875rem 2.5rem;
+            border-radius: 8px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            margin-top: 1rem;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .check-answer-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
+            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.5);
         }
 
         .check-answer-btn:active {
             transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
         }
 
         .feedback {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 6px;
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            border-radius: 10px;
             font-weight: 500;
+            font-size: 1rem;
+            border: 2px solid;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .feedback.correct {
             background: rgba(16, 185, 129, 0.1);
-            border-left: 4px solid var(--success);
+            border-color: var(--success);
             color: var(--success);
         }
 
         .feedback.incorrect {
             background: rgba(239, 68, 68, 0.1);
-            border-left: 4px solid var(--error);
+            border-color: var(--error);
             color: var(--error);
         }
 
         .feedback.partial {
             background: rgba(245, 158, 11, 0.1);
-            border-left: 4px solid var(--warning);
+            border-color: var(--warning);
             color: var(--warning);
         }
 
@@ -486,17 +507,25 @@
             background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
             color: white;
             border: none;
-            padding: 1.25rem 3rem;
-            border-radius: 8px;
-            font-size: 1.25rem;
-            font-weight: 700;
+            padding: 1.5rem 4rem;
+            border-radius: 12px;
+            font-size: 1.35rem;
+            font-weight: 800;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(255, 140, 0, 0.4);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(255, 140, 0, 0.6);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px) scale(1);
+            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
         }
 
         .final-score {
@@ -531,20 +560,24 @@
 
         textarea {
             width: 100%;
-            min-height: 100px;
-            padding: 0.75rem;
+            min-height: 120px;
+            padding: 1rem;
             background: var(--bg-tertiary);
             border: 2px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             color: var(--text-primary);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             resize: vertical;
+            transition: all 0.3s ease;
+            line-height: 1.6;
         }
 
         textarea:focus {
             outline: none;
             border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+            background: var(--bg-secondary);
         }
 
         /* Inline code in questions */
@@ -823,11 +856,11 @@
         .achievement-tabs {
             background: var(--bg-secondary);
             border-bottom: 2px solid var(--border-color);
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem 1rem;
             display: flex;
+            flex-wrap: wrap;
             gap: 0.5rem;
-            overflow-x: auto;
-            scrollbar-width: thin;
+            justify-content: center;
         }
 
         .achievement-tabs::-webkit-scrollbar {
@@ -844,28 +877,29 @@
         }
 
         .achievement-tab {
-            background: transparent;
-            border: none;
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-color);
             color: var(--text-muted);
-            padding: 1rem 1.5rem;
+            padding: 0.65rem 1rem;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.9rem;
-            border-bottom: 3px solid transparent;
+            font-size: 0.85rem;
             transition: all 0.3s ease;
             white-space: nowrap;
-            border-radius: 8px 8px 0 0;
+            border-radius: 8px;
         }
 
         .achievement-tab:hover {
             background: rgba(255, 140, 0, 0.1);
             color: var(--accent-primary);
+            border-color: var(--accent-primary);
         }
 
         .achievement-tab.active {
-            background: linear-gradient(135deg, rgba(255, 140, 0, 0.15) 0%, rgba(255, 107, 0, 0.1) 100%);
-            color: var(--accent-primary);
-            border-bottom-color: var(--accent-primary);
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            color: white;
+            border-color: var(--accent-primary);
+            box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4);
         }
 
         .modal-body {
@@ -1216,6 +1250,7 @@
         const maxScore = 100;
         const questionScores = {};
         const answeredQuestions = new Set(); // Track unique questions answered
+        let selectedQuestionIds = null; // Store selected question IDs for session persistence
 
         // Track answered questions by category
         const categoryProgress = {
@@ -1466,14 +1501,38 @@
             const content = document.getElementById('quiz-content');
             let html = '';
 
-            // Select 5 questions from each category (7 categories × 5 questions = 35 questions total)
-            const selectedNetworking = selectRandomQuestions(questionBank.networking, 5);
-            const selectedWebAttacks = selectRandomQuestions(questionBank.webattacks, 5);
-            const selectedFirewall = selectRandomQuestions(questionBank.firewall, 5);
-            const selectedMalware = selectRandomQuestions(questionBank.malware, 5);
-            const selectedDevices = selectRandomQuestions(questionBank.devices, 5);
-            const selectedPorts = selectRandomQuestions(questionBank.ports, 5);
-            const selectedLogs = selectRandomQuestions(logAnalysisSection.questions, 5);
+            let selectedNetworking, selectedWebAttacks, selectedFirewall, selectedMalware, selectedDevices, selectedPorts, selectedLogs;
+
+            // If we have saved question IDs, use them; otherwise select new random questions
+            if (selectedQuestionIds) {
+                selectedNetworking = selectedQuestionIds.networking.map(id => questionBank.networking.find(q => q.id === id)).filter(q => q);
+                selectedWebAttacks = selectedQuestionIds.webattacks.map(id => questionBank.webattacks.find(q => q.id === id)).filter(q => q);
+                selectedFirewall = selectedQuestionIds.firewall.map(id => questionBank.firewall.find(q => q.id === id)).filter(q => q);
+                selectedMalware = selectedQuestionIds.malware.map(id => questionBank.malware.find(q => q.id === id)).filter(q => q);
+                selectedDevices = selectedQuestionIds.devices.map(id => questionBank.devices.find(q => q.id === id)).filter(q => q);
+                selectedPorts = selectedQuestionIds.ports.map(id => questionBank.ports.find(q => q.id === id)).filter(q => q);
+                selectedLogs = selectedQuestionIds.logs.map(id => logAnalysisSection.questions.find(q => q.id === id)).filter(q => q);
+            } else {
+                // Select 5 questions from each category (7 categories × 5 questions = 35 questions total)
+                selectedNetworking = selectRandomQuestions(questionBank.networking, 5);
+                selectedWebAttacks = selectRandomQuestions(questionBank.webattacks, 5);
+                selectedFirewall = selectRandomQuestions(questionBank.firewall, 5);
+                selectedMalware = selectRandomQuestions(questionBank.malware, 5);
+                selectedDevices = selectRandomQuestions(questionBank.devices, 5);
+                selectedPorts = selectRandomQuestions(questionBank.ports, 5);
+                selectedLogs = selectRandomQuestions(logAnalysisSection.questions, 5);
+
+                // Store the selected question IDs for session persistence
+                selectedQuestionIds = {
+                    networking: selectedNetworking.map(q => q.id),
+                    webattacks: selectedWebAttacks.map(q => q.id),
+                    firewall: selectedFirewall.map(q => q.id),
+                    malware: selectedMalware.map(q => q.id),
+                    devices: selectedDevices.map(q => q.id),
+                    ports: selectedPorts.map(q => q.id),
+                    logs: selectedLogs.map(q => q.id)
+                };
+            }
 
             // Debug: Check if ports loaded
             console.log('Ports available:', questionBank.ports ? questionBank.ports.length : 0);
@@ -1569,7 +1628,7 @@
         function renderQuestion(q, index, total) {
             let html = `<div class="question-block">
                 <div class="question-title">
-                    <span>Question ${index}/${total}: ${q.title} (${q.scaledPoints || q.points} points)</span>
+                    <span>Question ${index}/${total} (${q.scaledPoints || q.points} points)</span>
                 </div>
                 <div class="question-text">${q.question}</div>`;
 
@@ -1776,6 +1835,7 @@
                 totalScore: totalScore,
                 questionScores: questionScores,
                 timeRemaining: timeRemaining,
+                selectedQuestionIds: selectedQuestionIds,
                 timestamp: Date.now()
             };
             localStorage.setItem('socAnalystProgress', JSON.stringify(progress));
@@ -1791,15 +1851,19 @@
                         totalScore = progress.totalScore || 0;
                         Object.assign(questionScores, progress.questionScores || {});
                         timeRemaining = progress.timeRemaining || 5400;
+                        selectedQuestionIds = progress.selectedQuestionIds || null;
                         document.getElementById('current-score').textContent = totalScore;
                         const progressFill = document.getElementById('progress-fill');
                         progressFill.style.width = `${(totalScore / maxScore) * 100}%`;
                         updateTimerDisplay();
+                        return true; // Session restored
                     } else {
                         localStorage.removeItem('socAnalystProgress');
+                        return false; // User declined restore
                     }
                 }
             }
+            return false; // No saved progress
         }
 
         function clearProgress() {
@@ -1896,8 +1960,8 @@
             console.log('Ports questions:', questionBank.ports);
 
             loadAchievementProgress(); // Load achievement progress from localStorage
-            loadProgress(); // Check for saved progress first
-            renderQuiz();
+            loadProgress(); // Check for saved progress first (will restore selectedQuestionIds if available)
+            renderQuiz(); // Render quiz with saved or new random questions
             startTimer();
         };
     </script>
