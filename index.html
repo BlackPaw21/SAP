@@ -1374,7 +1374,7 @@
                 <div class="modal-header">
                     <div>
                         <h2>🏆 Achievement Progress</h2>
-                        <p class="modal-subtitle">Track your mastery across all categories</p>
+                        <p class="modal-subtitle">Earn achievements by correctly answering unique questions</p>
                     </div>
                     <button onclick="closeAchievementsModal()" class="modal-close-btn">×</button>
                 </div>
@@ -1662,10 +1662,10 @@
                     <div class="category-stats">
                         <h3>${categoryInfo[category].icon} ${categoryInfo[category].name}</h3>
                         <p>
-                            <strong>${questionsAnswered}</strong> / ${totalQuestions} unique questions answered
+                            <strong>${questionsAnswered}</strong> / ${totalQuestions} unique questions <strong>correctly answered</strong>
                         </p>
                         <div class="category-progress-text">
-                            ${Math.round((questionsAnswered / totalQuestions) * 100)}% Complete
+                            ${Math.round((questionsAnswered / totalQuestions) * 100)}% Mastery
                         </div>
                     </div>
                     <div class="category-icon-large">
@@ -1690,7 +1690,7 @@
                                 ${isNext && !isUnlocked ? '<span class="achievement-badge badge-next">Next Goal</span>' : ''}
                             </div>
                             <div class="achievement-desc">
-                                ${achievement.questions} unique ${categoryInfo[category].name} questions
+                                ${achievement.questions} unique ${categoryInfo[category].name} questions correctly answered
                             </div>
                             <div class="achievement-progress-bar">
                                 <div class="achievement-progress-fill" style="width: ${progressPercent}%; background: ${isUnlocked ? achievement.color : 'var(--accent-primary)'}"></div>
@@ -2211,16 +2211,18 @@
                 feedback = `Manual grading required. Potential: ${points} points.`;
             }
 
-            // Track unique answered questions
-            answeredQuestions.add(qid);
+            // Track unique CORRECTLY answered questions for achievements
+            if (isCorrect) {
+                answeredQuestions.add(qid);
 
-            // Track by category
-            const category = getCategoryFromQuestionId(qid);
-            if (category && categoryProgress[category]) {
-                categoryProgress[category].add(qid);
+                // Track by category
+                const category = getCategoryFromQuestionId(qid);
+                if (category && categoryProgress[category]) {
+                    categoryProgress[category].add(qid);
+                }
+
+                updateAchievements();
             }
-
-            updateAchievements();
 
             updateQuestionScore(qid, points);
             displayFeedback(qid, feedback, isCorrect ? 'correct' : (points > 0 ? 'partial' : 'incorrect'));
