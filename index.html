@@ -2473,8 +2473,12 @@
             return shuffled.slice(0, Math.min(count, shuffled.length));
         }
 
-        // Load more questions for a specific category
-        function loadMoreQuestions(categoryName) {
+        // Extended question cache for lazy loading
+        const extendedQuestionsCache = {};
+        const extendedQuestionsLoading = {};
+
+        // Load more questions for a specific category (with lazy loading support)
+        async function loadMoreQuestions(categoryName) {
             // Get the question pool for this category
             let questionPool;
             if (categoryName === 'logs') {
@@ -2486,6 +2490,70 @@
             if (!questionPool || questionPool.length === 0) {
                 alert('Error: Question bank not loaded');
                 return;
+            }
+
+            // Check if we need to load extended questions (51-100)
+            const currentMax = Math.max(...questionPool.map(q => {
+                const match = q.id.match(/\d+$/);
+                return match ? parseInt(match[0]) : 0;
+            }));
+
+            // If we have <100 questions and haven't loaded extended yet, try to load them
+            if (currentMax < 100 && !extendedQuestionsCache[categoryName]) {
+                if (extendedQuestionsLoading[categoryName]) {
+                    alert('⏳ Loading additional questions, please wait...');
+                    return;
+                }
+
+                extendedQuestionsLoading[categoryName] = true;
+
+                try {
+                    const fileMap = {
+                        networking: 'networkingExtended',
+                        webattacks: 'webattacksExtended',
+                        firewall: 'firewallExtended',
+                        malware: 'malwareExtended',
+                        devices: 'devicesExtended',
+                        ports: 'portsExtended',
+                        logs: 'logsExtended'
+                    };
+
+                    const varName = fileMap[categoryName];
+                    const fileName = categoryName + '_extended.js';
+
+                    if (varName) {
+                        await new Promise((resolve, reject) => {
+                            const script = document.createElement('script');
+                            script.src = `questions/${fileName}`;
+                            script.onload = () => {
+                                if (window[varName]) {
+                                    extendedQuestionsCache[categoryName] = window[varName];
+
+                                    // Merge into main question bank
+                                    if (categoryName === 'logs') {
+                                        logAnalysisSection.questions = logAnalysisSection.questions.concat(window[varName]);
+                                        questionPool = logAnalysisSection.questions;
+                                    } else {
+                                        questionBank[categoryName] = questionBank[categoryName].concat(window[varName]);
+                                        questionPool = questionBank[categoryName];
+                                    }
+
+                                    console.log(`✅ Loaded ${window[varName].length} extended questions for ${categoryName}`);
+                                }
+                                resolve();
+                            };
+                            script.onerror = () => {
+                                console.log(`ℹ️ No extended questions file found for ${categoryName} (${fileName})`);
+                                resolve();
+                            };
+                            document.head.appendChild(script);
+                        });
+                    }
+                } catch (error) {
+                    console.warn('Could not load extended questions:', error);
+                } finally {
+                    extendedQuestionsLoading[categoryName] = false;
+                }
             }
 
             // Get already shown questions for this category
