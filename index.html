@@ -1587,9 +1587,87 @@
                 padding: 1rem;
             }
 
-            /* Back to top button - square 1:1 ratio on mobile */
+            /* Mobile achievements modal improvements */
+            .modal-content {
+                max-height: 85vh;
+                margin: 0.5rem;
+            }
+
+            .modal-header {
+                padding: 1.25rem 1rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .modal-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .modal-close-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.8rem;
+            }
+
+            .achievement-tabs {
+                padding: 0.5rem;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .achievement-tab {
+                font-size: 0.75rem;
+                padding: 0.5rem 0.75rem;
+                flex-shrink: 0;
+            }
+
+            .modal-body {
+                padding: 1rem;
+            }
+
+            .category-overview {
+                padding: 1rem;
+                grid-template-columns: 1fr;
+                text-align: center;
+                margin-bottom: 1.5rem;
+            }
+
+            .category-stats h3 {
+                font-size: 1.3rem;
+            }
+
+            .category-stats p {
+                font-size: 0.9rem;
+            }
+
+            .current-tier {
+                font-size: 3rem;
+            }
+
+            .achievement-card {
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .achievement-icon {
+                font-size: 2rem;
+            }
+
+            .achievement-name {
+                font-size: 1rem;
+            }
+
+            .achievement-description {
+                font-size: 0.85rem;
+            }
+
+            /* Back to top button - above bottom tabs on mobile */
             #back-to-top {
-                bottom: 130px;
+                bottom: 135px;
                 right: 10px;
                 width: 48px;
                 height: 48px;
@@ -1745,9 +1823,9 @@
                 padding: 1rem;
             }
 
-            /* Square back-to-top button for small phones */
+            /* Square back-to-top button for small phones - above tabs */
             #back-to-top {
-                bottom: 120px;
+                bottom: 130px;
                 right: 8px;
                 width: 44px;
                 height: 44px;
@@ -1756,6 +1834,66 @@
 
             #back-to-top .arrow {
                 font-size: 1.3rem;
+            }
+
+            /* Smaller achievements modal elements */
+            .modal-header {
+                padding: 1rem 0.75rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .modal-subtitle {
+                font-size: 0.75rem;
+            }
+
+            .achievement-tabs {
+                padding: 0.4rem;
+            }
+
+            .achievement-tab {
+                font-size: 0.7rem;
+                padding: 0.4rem 0.65rem;
+            }
+
+            .modal-body {
+                padding: 0.75rem;
+            }
+
+            .category-overview {
+                padding: 0.75rem;
+                margin-bottom: 1rem;
+            }
+
+            .category-stats h3 {
+                font-size: 1.1rem;
+            }
+
+            .category-stats p {
+                font-size: 0.8rem;
+            }
+
+            .current-tier {
+                font-size: 2.5rem;
+            }
+
+            .achievement-card {
+                padding: 0.75rem;
+                gap: 0.75rem;
+            }
+
+            .achievement-icon {
+                font-size: 1.75rem;
+            }
+
+            .achievement-name {
+                font-size: 0.9rem;
+            }
+
+            .achievement-description {
+                font-size: 0.8rem;
             }
 
             /* More compact stat cards */
@@ -2343,14 +2481,62 @@
         // Question database is loaded from external file: questions_data.js
         // This keeps the HTML clean and makes question management easier
 
+        // Retry counter for question bank loading
+        let renderQuizRetries = 0;
+        const MAX_RETRIES = 50; // 50 retries × 100ms = 5 seconds max wait
+
         // Render all questions
         function renderQuiz() {
-            // Safety check: ensure questionBank is loaded
-            if (!questionBank || !questionBank.networking || !questionBank.webattacks) {
-                console.error('Question bank not loaded yet, retrying...');
-                setTimeout(renderQuiz, 100);
-                return;
+            // Comprehensive safety check: ensure ALL question categories are loaded with questions
+            const isQuestionBankValid = questionBank &&
+                Array.isArray(questionBank.networking) && questionBank.networking.length > 0 &&
+                Array.isArray(questionBank.webattacks) && questionBank.webattacks.length > 0 &&
+                Array.isArray(questionBank.firewall) && questionBank.firewall.length > 0 &&
+                Array.isArray(questionBank.malware) && questionBank.malware.length > 0 &&
+                Array.isArray(questionBank.devices) && questionBank.devices.length > 0 &&
+                Array.isArray(questionBank.ports) && questionBank.ports.length > 0;
+
+            const isLogSectionValid = logAnalysisSection &&
+                Array.isArray(logAnalysisSection.questions) &&
+                logAnalysisSection.questions.length > 0;
+
+            if (!isQuestionBankValid || !isLogSectionValid) {
+                renderQuizRetries++;
+                console.warn(`Question bank not fully loaded (attempt ${renderQuizRetries}/${MAX_RETRIES}), retrying...`);
+                console.warn('Status:', {
+                    questionBank: !!questionBank,
+                    networking: questionBank?.networking?.length || 0,
+                    webattacks: questionBank?.webattacks?.length || 0,
+                    firewall: questionBank?.firewall?.length || 0,
+                    malware: questionBank?.malware?.length || 0,
+                    devices: questionBank?.devices?.length || 0,
+                    ports: questionBank?.ports?.length || 0,
+                    logAnalysisSection: !!logAnalysisSection,
+                    logQuestions: logAnalysisSection?.questions?.length || 0
+                });
+
+                if (renderQuizRetries < MAX_RETRIES) {
+                    setTimeout(renderQuiz, 100);
+                    return;
+                } else {
+                    console.error('Failed to load question bank after maximum retries. Please refresh the page.');
+                    const content = document.getElementById('quiz-content');
+                    if (content) {
+                        content.innerHTML = `
+                            <div style="text-align: center; padding: 4rem 2rem;">
+                                <div style="font-size: 5rem; margin-bottom: 1rem;">⚠️</div>
+                                <h3 style="color: var(--error); font-size: 2rem; margin-bottom: 1rem;">Loading Error</h3>
+                                <p style="color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 1rem;">Failed to load question database.</p>
+                                <button onclick="location.reload()" class="check-answer-btn" style="margin-top: 1rem;">Refresh Page</button>
+                            </div>
+                        `;
+                    }
+                    return;
+                }
             }
+
+            // Reset retry counter on successful load
+            renderQuizRetries = 0;
 
             const content = document.getElementById('quiz-content');
             let html = '';
