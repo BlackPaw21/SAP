@@ -46,7 +46,7 @@
 
         .header {
             background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
-            padding: 3rem 2rem;
+            padding: 2rem 2rem 1.5rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -69,33 +69,75 @@
         }
 
         .header h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             color: white;
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
         }
 
         .header p {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             color: rgba(255, 255, 255, 0.95);
             font-weight: 500;
         }
 
         .progress-container {
-            background: var(--bg-tertiary);
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+            padding: 1rem 2rem;
+            border-bottom: 2px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .progress-info {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
             align-items: center;
-            margin-bottom: 0.75rem;
+        }
+
+        .stat-card {
+            background: var(--bg-elevated);
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.2);
+            border-color: var(--accent-primary);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
         }
 
         .score-display {
@@ -127,10 +169,12 @@
         }
 
         .progress-bar {
-            height: 8px;
+            height: 10px;
             background: var(--bg-primary);
-            border-radius: 4px;
+            border-radius: 20px;
             overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
         }
 
         .progress-fill {
@@ -138,6 +182,20 @@
             background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
             width: 0%;
             transition: width 0.5s ease;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(255, 140, 0, 0.5);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent);
+            border-radius: 20px 20px 0 0;
         }
 
         .content {
@@ -145,40 +203,56 @@
         }
 
         .section {
-            background: var(--bg-tertiary);
-            padding: 2rem;
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, rgba(42, 42, 42, 0.8) 100%);
+            padding: 2.5rem;
             margin-bottom: 2rem;
-            border-radius: 12px;
+            border-radius: 16px;
             border: 1px solid var(--border-color);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
 
         .section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.9rem;
+            margin-bottom: 2rem;
             color: var(--accent-primary);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--accent-primary);
+            padding-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-shadow: 0 2px 8px rgba(255, 140, 0, 0.3);
         }
 
         .question-block {
             background: var(--bg-elevated);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent-secondary);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--accent-secondary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .question-block:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(255, 140, 0, 0.2);
+            border-left-color: var(--accent-primary);
         }
 
         .question-title {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
             color: var(--accent-primary);
             text-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
-            letter-spacing: -0.3px;
+            letter-spacing: -0.2px;
             display: flex;
             align-items: center;
             gap: 0.75rem;
             flex-wrap: wrap;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
         /* Removed old badge styles - replaced with achievement system */
@@ -539,15 +613,15 @@
 
         /* Tab Navigation */
         .tab-container {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.08) 0%, rgba(255, 107, 0, 0.05) 100%);
+            padding: 1.25rem 2rem;
+            border-bottom: 2px solid var(--border-color);
             backdrop-filter: blur(10px);
         }
 
         .tab-nav {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(7, 1fr);
             gap: 0.75rem;
             max-width: 1400px;
             margin: 0 auto;
@@ -556,35 +630,63 @@
         .tab-btn {
             background: var(--bg-elevated);
             border: 2px solid var(--border-color);
-            padding: 0.85rem 0.5rem;
+            padding: 1rem 0.5rem;
             color: var(--text-secondary);
             font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s ease;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             white-space: nowrap;
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.35rem;
+            gap: 0.4rem;
             text-align: center;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .tab-btn > * {
+            position: relative;
+            z-index: 1;
         }
 
         .tab-btn:hover {
             color: var(--text-primary);
             background: var(--bg-tertiary);
             border-color: var(--accent-primary);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(255, 140, 0, 0.3);
+        }
+
+        .tab-btn:hover::before {
+            opacity: 0.1;
         }
 
         .tab-btn.active {
-            color: var(--accent-primary);
+            color: white;
             border-color: var(--accent-primary);
-            background: rgba(0, 212, 255, 0.15);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            background: var(--bg-elevated);
+            box-shadow: 0 0 24px rgba(255, 140, 0, 0.4), 0 6px 16px rgba(255, 140, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active::before {
+            opacity: 1;
         }
 
         .tab-btn .tab-icon {
@@ -621,10 +723,329 @@
             margin-left: 0.5rem;
         }
 
+        /* Achievements Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            padding: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            border: 3px solid var(--accent-primary);
+            border-radius: 24px;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(255, 140, 0, 0.4);
+            overflow: hidden;
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 107, 0, 0.1) 100%);
+            padding: 2rem 2.5rem;
+            border-bottom: 2px solid rgba(255, 140, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: var(--accent-primary);
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-shadow: 0 2px 10px rgba(255, 140, 0, 0.3);
+        }
+
+        .modal-subtitle {
+            margin: 0.5rem 0 0 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        .modal-close-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255, 140, 0, 0.25);
+            border-color: var(--accent-primary);
+            transform: rotate(90deg);
+            color: var(--accent-primary);
+        }
+
+        .achievement-tabs {
+            background: var(--bg-secondary);
+            border-bottom: 2px solid var(--border-color);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .achievement-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .achievement-tabs::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        .achievement-tabs::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 2px;
+        }
+
+        .achievement-tab {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .achievement-tab:hover {
+            background: rgba(255, 140, 0, 0.1);
+            color: var(--accent-primary);
+        }
+
+        .achievement-tab.active {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.15) 0%, rgba(255, 107, 0, 0.1) 100%);
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-primary);
+        }
+
+        .modal-body {
+            padding: 2.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 4px;
+        }
+
+        .category-overview {
+            margin-bottom: 2.5rem;
+            padding: 2rem;
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            border: 2px solid var(--border-color);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .category-stats h3 {
+            margin: 0 0 0.75rem 0;
+            color: var(--text-primary);
+            font-size: 1.8rem;
+        }
+
+        .category-stats p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .category-stats strong {
+            color: var(--accent-primary);
+            font-size: 1.4rem;
+        }
+
+        .category-icon-large {
+            font-size: 4rem;
+            text-align: center;
+        }
+
+        .category-progress-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        .achievement-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-card.unlocked {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(255, 107, 0, 0.05) 100%);
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 16px rgba(255, 140, 0, 0.2);
+        }
+
+        .achievement-card.locked {
+            opacity: 0.6;
+        }
+
+        .achievement-card:hover {
+            transform: translateX(4px);
+        }
+
+        .achievement-icon {
+            font-size: 3rem;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-card.locked .achievement-icon {
+            filter: grayscale(100%);
+        }
+
+        .achievement-details {
+            flex: 1;
+        }
+
+        .achievement-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .achievement-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .achievement-card.unlocked .achievement-name {
+            color: var(--accent-primary);
+        }
+
+        .achievement-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-unlocked {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .badge-next {
+            background: rgba(255, 140, 0, 0.2);
+            color: var(--accent-primary);
+        }
+
+        .achievement-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .achievement-progress-bar {
+            background: var(--bg-primary);
+            border-radius: 20px;
+            height: 8px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-progress-fill {
+            height: 100%;
+            background: var(--accent-primary);
+            transition: width 0.5s ease;
+            border-radius: 20px;
+        }
+
+        .achievement-card.unlocked .achievement-progress-fill {
+            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+        }
+
+        .achievement-status {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
         /* Responsive tabs for smaller screens */
         @media (max-width: 1200px) {
             .tab-nav {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .modal-content {
+                max-width: 95%;
+            }
+
+            .category-overview {
+                grid-template-columns: 1fr;
+                text-align: center;
             }
         }
 
@@ -644,6 +1065,23 @@
             .tab-btn .tab-label {
                 font-size: 0.75rem;
             }
+
+            .modal-header {
+                padding: 1.5rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.6rem;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .achievement-card {
+                flex-direction: column;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -658,18 +1096,26 @@
 
         <div class="progress-container">
             <div class="progress-info">
-                <div style="display: flex; align-items: center; gap: 1.5rem;">
-                    <span style="font-weight: 600;">Your Progress</span>
-                    <div id="achievement-badge" style="display: none; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(255, 140, 0, 0.1); border-radius: 6px; border: 1px solid rgba(255, 140, 0, 0.3);"></div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-content">
+                        <div class="stat-label">Time Remaining</div>
+                        <div class="stat-value timer-display" id="timer-display">90:00</div>
+                    </div>
                 </div>
-                <div style="display: flex; gap: 2rem; align-items: center;">
-                    <button onclick="showAchievementsModal()" class="achievements-btn">
-                        <span style="font-size: 1.1rem;">🏆</span>
-                        <span>Achievements</span>
-                        <div id="achievement-badge-count" style="display: none; background: rgba(255, 255, 255, 0.25); padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">0</div>
-                    </button>
-                    <span class="timer-display" id="timer-display">⏱️ 90:00</span>
-                    <span class="score-display"><span id="current-score">0</span> / 100 points</span>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <div class="stat-label">Your Score</div>
+                        <div class="stat-value score-display"><span id="current-score">0</span> / 100</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="cursor: pointer;" onclick="showAchievementsModal()">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-content">
+                        <div class="stat-label">Achievements</div>
+                        <div class="stat-value"><span id="achievement-badge-count">0</span> Unlocked</div>
+                    </div>
                 </div>
             </div>
             <div class="progress-bar">
@@ -678,51 +1124,19 @@
         </div>
 
         <!-- Achievements Modal -->
-        <div id="achievements-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(8px); padding: 2rem;">
-            <div style="background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); border: 3px solid var(--accent-color); border-radius: 20px; max-width: 950px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 140, 0, 0.3); overflow: hidden;">
-
+        <div id="achievements-modal" class="modal-overlay">
+            <div class="modal-content">
                 <!-- Modal Header -->
-                <div style="background: linear-gradient(135deg, rgba(255, 140, 0, 0.15) 0%, rgba(255, 107, 0, 0.1) 100%); padding: 1.75rem 2rem; border-bottom: 2px solid rgba(255, 140, 0, 0.3);">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <h2 style="margin: 0 0 0.3rem 0; color: var(--accent-color); font-size: 2rem; display: flex; align-items: center; gap: 1rem; text-shadow: 0 2px 10px rgba(255, 140, 0, 0.3);">
-                                🏆 Achievement Progress
-                            </h2>
-                            <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Track your mastery across all categories</p>
-                        </div>
-                        <button onclick="closeAchievementsModal()" style="background: rgba(255, 255, 255, 0.08); border: 2px solid var(--border-color); color: var(--text-primary); width: 45px; height: 45px; border-radius: 50%; font-size: 1.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; font-weight: 300; line-height: 1;" onmouseover="this.style.background='rgba(255, 140, 0, 0.25)'; this.style.borderColor='var(--accent-color)'; this.style.transform='rotate(90deg)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.borderColor='var(--border-color)'; this.style.transform='rotate(0)'">
-                            ×
-                        </button>
+                <div class="modal-header">
+                    <div>
+                        <h2>🏆 Achievement Progress</h2>
+                        <p class="modal-subtitle">Track your mastery across all categories</p>
                     </div>
+                    <button onclick="closeAchievementsModal()" class="modal-close-btn">×</button>
                 </div>
 
                 <!-- Category Tabs -->
-                <div style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-color); padding: 0.5rem 1.5rem; display: flex; gap: 0.25rem; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;">
-                    <style>
-                        .achievement-tab-container::-webkit-scrollbar { display: none; }
-                        .achievement-tab {
-                            background: transparent;
-                            border: none;
-                            color: var(--text-muted);
-                            padding: 0.9rem 1.2rem;
-                            cursor: pointer;
-                            font-weight: 600;
-                            font-size: 0.9rem;
-                            border-bottom: 3px solid transparent;
-                            transition: all 0.3s ease;
-                            white-space: nowrap;
-                            border-radius: 8px 8px 0 0;
-                        }
-                        .achievement-tab:hover {
-                            background: rgba(255, 140, 0, 0.1);
-                            color: var(--accent-color);
-                        }
-                        .achievement-tab.active {
-                            background: linear-gradient(135deg, rgba(255, 140, 0, 0.15) 0%, rgba(255, 107, 0, 0.1) 100%);
-                            color: var(--accent-color);
-                            border-bottom-color: var(--accent-color);
-                        }
-                    </style>
+                <div class="achievement-tabs">
                     <button class="achievement-tab active" onclick="switchAchievementTab('networking')" data-category="networking">🌐 Networking</button>
                     <button class="achievement-tab" onclick="switchAchievementTab('webattacks')" data-category="webattacks">🔓 Web Attacks</button>
                     <button class="achievement-tab" onclick="switchAchievementTab('firewall')" data-category="firewall">🛡️ Firewall</button>
@@ -733,10 +1147,7 @@
                 </div>
 
                 <!-- Modal Body -->
-                <div id="achievements-list" style="padding: 2rem; overflow-y: auto; flex: 1; scrollbar-width: none; -ms-overflow-style: none;">
-                    <style>
-                        #achievements-list::-webkit-scrollbar { display: none; }
-                    </style>
+                <div id="achievements-list" class="modal-body">
                     <!-- Achievement items inserted by JavaScript -->
                 </div>
             </div>
@@ -929,24 +1340,18 @@
             const totalQuestions = 50;
 
             let html = `
-                <div style="margin-bottom: 2rem; padding: 1.5rem; background: var(--bg-secondary); border-radius: 12px; border: 2px solid var(--border-color);">
-                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-                        <div>
-                            <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.5rem;">
-                                ${categoryInfo[category].icon} ${categoryInfo[category].name}
-                            </h3>
-                            <p style="margin: 0; color: var(--text-muted);">
-                                <strong style="color: var(--accent-color); font-size: 1.2rem;">${questionsAnswered}</strong> / ${totalQuestions} unique questions answered
-                            </p>
+                <div class="category-overview">
+                    <div class="category-stats">
+                        <h3>${categoryInfo[category].icon} ${categoryInfo[category].name}</h3>
+                        <p>
+                            <strong>${questionsAnswered}</strong> / ${totalQuestions} unique questions answered
+                        </p>
+                        <div class="category-progress-text">
+                            ${Math.round((questionsAnswered / totalQuestions) * 100)}% Complete
                         </div>
-                        <div style="text-align: right;">
-                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">
-                                ${categoryAchievements.find(a => questionsAnswered >= a.questions)?.icon || '🔒'}
-                            </div>
-                            <div style="color: var(--text-secondary); font-size: 0.9rem;">
-                                ${Math.round((questionsAnswered / totalQuestions) * 100)}% Complete
-                            </div>
-                        </div>
+                    </div>
+                    <div class="category-icon-large">
+                        ${categoryAchievements.find(a => questionsAnswered >= a.questions)?.icon || '🔒'}
                     </div>
                 </div>
             `;
@@ -955,45 +1360,25 @@
             categoryAchievements.forEach((achievement, index) => {
                 const isUnlocked = questionsAnswered >= achievement.questions;
                 const isNext = !isUnlocked && (index === 0 || questionsAnswered >= categoryAchievements[index - 1].questions);
+                const progressPercent = Math.min(100, (questionsAnswered / achievement.questions) * 100);
 
                 html += `
-                    <div style="background: ${isUnlocked ? 'linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(255, 107, 0, 0.05) 100%)' : 'var(--bg-secondary)'};
-                                border: 2px solid ${isUnlocked ? achievement.color : 'var(--border-color)'};
-                                border-radius: 12px;
-                                padding: 1.25rem;
-                                margin-bottom: 0.75rem;
-                                display: flex;
-                                align-items: center;
-                                gap: 1.25rem;
-                                ${isUnlocked ? 'box-shadow: 0 4px 12px rgba(255, 140, 0, 0.2);' : 'opacity: 0.7;'}
-                                transition: all 0.3s ease;">
-
-                        <div style="font-size: 2.5rem; ${!isUnlocked ? 'filter: grayscale(100%);' : ''}">${achievement.icon}</div>
-
-                        <div style="flex: 1;">
-                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
-                                <h4 style="margin: 0; color: ${isUnlocked ? achievement.color : 'var(--text-muted)'}; font-size: 1.1rem;">
-                                    ${achievement.name}
-                                </h4>
-                                ${isUnlocked ? '<span style="background: ' + achievement.color + '; color: white; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;">Unlocked</span>' : ''}
-                                ${isNext && !isUnlocked ? '<span style="background: rgba(255, 140, 0, 0.2); color: var(--accent-color); padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;">Next Goal</span>' : ''}
+                    <div class="achievement-card ${isUnlocked ? 'unlocked' : 'locked'}" style="border-color: ${isUnlocked ? achievement.color : 'var(--border-color)'};">
+                        <div class="achievement-icon">${achievement.icon}</div>
+                        <div class="achievement-details">
+                            <div class="achievement-header">
+                                <h4 class="achievement-name" style="${isUnlocked ? 'color: ' + achievement.color : ''}">${achievement.name}</h4>
+                                ${isUnlocked ? `<span class="achievement-badge badge-unlocked" style="background: ${achievement.color}">Unlocked</span>` : ''}
+                                ${isNext && !isUnlocked ? '<span class="achievement-badge badge-next">Next Goal</span>' : ''}
                             </div>
-
-                            <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.6rem;">
+                            <div class="achievement-desc">
                                 ${achievement.questions} unique ${categoryInfo[category].name} questions
                             </div>
-
-                            <div style="background: var(--bg-primary); border-radius: 20px; height: 6px; overflow: hidden; margin-bottom: 0.4rem;">
-                                <div style="background: ${isUnlocked ? achievement.color : 'var(--accent-color)'};
-                                            height: 100%;
-                                            width: ${Math.min(100, (questionsAnswered / achievement.questions) * 100)}%;
-                                            transition: width 0.5s ease;
-                                            ${isUnlocked ? '' : 'opacity: 0.6;'}">
-                                </div>
+                            <div class="achievement-progress-bar">
+                                <div class="achievement-progress-fill" style="width: ${progressPercent}%; background: ${isUnlocked ? achievement.color : 'var(--accent-primary)'}"></div>
                             </div>
-
-                            <div style="color: var(--text-muted); font-size: 0.75rem;">
-                                ${isUnlocked ? '✓ Achievement earned!' : `${Math.max(0, achievement.questions - questionsAnswered)} more needed`}
+                            <div class="achievement-status">
+                                ${isUnlocked ? '✓ Achievement earned!' : `${Math.max(0, achievement.questions - questionsAnswered)} more questions needed`}
                             </div>
                         </div>
                     </div>
