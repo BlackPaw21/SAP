@@ -1567,10 +1567,6 @@
                 };
             }
 
-            // Debug: Check if ports loaded
-            console.log('Ports available:', questionBank.ports ? questionBank.ports.length : 0);
-            console.log('Selected ports:', selectedPorts.length);
-
             // Normalize points to total exactly 100
             const allQuestions = [
                 ...selectedNetworking,
@@ -2013,6 +2009,8 @@
                             categoryProgress[category].clear();
                         });
                         answeredQuestions.clear();
+                        // Reset achievement badge counter to 0
+                        updateAchievements();
                         return false; // User declined restore
                     }
                 }
@@ -2109,11 +2107,6 @@
 
         // Initialize quiz on load
         window.onload = function() {
-            // Verify questionBank loaded
-            console.log('Question Bank loaded:', typeof questionBank);
-            console.log('Categories:', Object.keys(questionBank));
-            console.log('Ports questions:', questionBank.ports);
-
             loadAchievementProgress(); // Load achievement progress from localStorage
             loadProgress(); // Check for saved progress first (will restore selectedQuestionIds if available)
             renderQuiz(); // Render quiz with saved or new random questions
