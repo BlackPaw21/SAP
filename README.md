@@ -101,22 +101,6 @@ Simply visit the live demo link above - no installation required!
 - **ESC** - Close modal dialogs
 - **Click Timer** - Pause/resume the countdown
 
-## 🔧 Deployment (GitHub Pages)
-
-To deploy your own instance:
-
-1. **Fork this repository**
-
-2. **Enable GitHub Pages**
-   - Go to repository **Settings** → **Pages**
-   - Under **Source**, select **Deploy from a branch**
-   - Choose **main** branch and **/ (root)** folder
-   - Click **Save**
-
-3. **Access your site**
-   - Your site will be available at: `https://[username].github.io/SOC-Analyst-Pro/`
-   - Initial deployment takes 1-2 minutes
-
 ## 📝 Customization
 
 ### Adding Questions
@@ -154,22 +138,3 @@ Points are automatically normalized to 100. Adjust individual question points in
 - **Threat Detection**: IRC traffic, Tor connections, PowerShell abuse, mimikatz, DNS tunneling
 - **Incident Response**: Log correlation, IOC identification, lateral movement detection
 
-## 📄 License
-
-This project is open source and available for educational purposes.
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-- Submit new questions
-- Report bugs or issues
-- Suggest feature improvements
-- Fix typos or improve documentation
-
-## 📧 Support
-
-If you encounter any issues or have questions, please open an issue on GitHub.
-
----
-
-**Built for aspiring SOC analysts** | **Practice. Learn. Excel.**
