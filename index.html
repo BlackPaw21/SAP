@@ -2157,6 +2157,17 @@
         const answeredQuestions = new Set(); // Track unique questions answered
         let selectedQuestionIds = null; // Store selected question IDs for session persistence
 
+        // Track shown questions per category (for "Load More Questions" feature)
+        const shownQuestions = {
+            networking: new Set(),
+            webattacks: new Set(),
+            firewall: new Set(),
+            malware: new Set(),
+            devices: new Set(),
+            ports: new Set(),
+            logs: new Set()
+        };
+
         // Track answered questions by category
         const categoryProgress = {
             networking: new Set(),
@@ -2168,19 +2179,20 @@
             logs: new Set()
         };
 
-        // Achievement tiers per category (50 questions each)
+        // Achievement tiers per category (100 questions each)
         const categoryAchievements = [
             { questions: 1, name: 'Rookie', icon: '🌱', color: '#10b981' },
             { questions: 5, name: 'Novice', icon: '🥉', color: '#cd7f32' },
             { questions: 10, name: 'Apprentice', icon: '📚', color: '#8b949e' },
-            { questions: 15, name: 'Practitioner', icon: '⭐', color: '#58a6ff' },
-            { questions: 20, name: 'Specialist', icon: '🎯', color: '#3fb950' },
-            { questions: 25, name: 'Expert', icon: '💎', color: '#d29922' },
-            { questions: 30, name: 'Professional', icon: '🥈', color: '#c0c0c0' },
-            { questions: 35, name: 'Master', icon: '👑', color: '#ffd700' },
-            { questions: 40, name: 'Veteran', icon: '⚔️', color: '#a371f7' },
-            { questions: 45, name: 'Elite', icon: '🦅', color: '#ff6b6b' },
-            { questions: 50, name: 'Legend', icon: '🏆', color: '#ff0000' }
+            { questions: 20, name: 'Practitioner', icon: '⭐', color: '#58a6ff' },
+            { questions: 30, name: 'Specialist', icon: '🎯', color: '#3fb950' },
+            { questions: 40, name: 'Skilled', icon: '🔧', color: '#f59e0b' },
+            { questions: 50, name: 'Expert', icon: '💎', color: '#d29922' },
+            { questions: 60, name: 'Professional', icon: '🥈', color: '#c0c0c0' },
+            { questions: 70, name: 'Master', icon: '👑', color: '#ffd700' },
+            { questions: 80, name: 'Veteran', icon: '⚔️', color: '#a371f7' },
+            { questions: 90, name: 'Elite', icon: '🦅', color: '#ff6b6b' },
+            { questions: 100, name: 'Legend', icon: '🏆', color: '#ff0000' }
         ];
 
         const categoryInfo = {
@@ -2461,6 +2473,146 @@
             return shuffled.slice(0, Math.min(count, shuffled.length));
         }
 
+        // Load more questions for a specific category
+        function loadMoreQuestions(categoryName) {
+            // Get the question pool for this category
+            let questionPool;
+            if (categoryName === 'logs') {
+                questionPool = logAnalysisSection.questions;
+            } else {
+                questionPool = questionBank[categoryName];
+            }
+
+            if (!questionPool || questionPool.length === 0) {
+                alert('Error: Question bank not loaded');
+                return;
+            }
+
+            // Get already shown questions for this category
+            const alreadyShown = shownQuestions[categoryName];
+
+            // Filter out already shown questions
+            const availableQuestions = questionPool.filter(q => !alreadyShown.has(q.id));
+
+            if (availableQuestions.length === 0) {
+                alert('🎉 Amazing! You\'ve gone through all ' + questionPool.length + ' questions in this category!\n\nYou\'re a true ' + categoryInfo[categoryName].name + ' expert! 🏆');
+                return;
+            }
+
+            // Select up to 5 new questions (or however many are left)
+            const countToLoad = Math.min(5, availableQuestions.length);
+            const newQuestions = selectRandomQuestions(availableQuestions, countToLoad);
+
+            // Add new questions to the shown set and selected IDs
+            newQuestions.forEach(q => {
+                shownQuestions[categoryName].add(q.id);
+                if (!selectedQuestionIds[categoryName]) {
+                    selectedQuestionIds[categoryName] = [];
+                }
+                selectedQuestionIds[categoryName].push(q.id);
+            });
+
+            // Re-render the category (will include the new questions)
+            renderCategory(categoryName);
+
+            // Save progress
+            saveProgress();
+
+            // Scroll to the first new question
+            setTimeout(() => {
+                const categorySection = document.getElementById(`tab-${categoryName}`);
+                if (categorySection) {
+                    const questionBlocks = categorySection.querySelectorAll('.question-block');
+                    // Scroll to the first unanswered question
+                    for (let block of questionBlocks) {
+                        const checkBtn = block.querySelector('.check-answer-btn');
+                        if (checkBtn && checkBtn.textContent.includes('Check Answer')) {
+                            block.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            break;
+                        }
+                    }
+                }
+            }, 300);
+        }
+
+        // Render a specific category
+        function renderCategory(categoryName) {
+            const categoryMap = {
+                networking: { questions: questionBank.networking, icon: '🌐', title: 'Network Fundamentals & Protocols', num: 1 },
+                webattacks: { questions: questionBank.webattacks, icon: '🔓', title: 'Web Application Security', num: 2 },
+                firewall: { questions: questionBank.firewall, icon: '🛡️', title: 'Firewall Rules & Network Security', num: 3 },
+                malware: { questions: questionBank.malware, icon: '🦠', title: 'Malware Analysis & Threat Detection', num: 4 },
+                devices: { questions: questionBank.devices, icon: '📡', title: 'Security Infrastructure & Devices', num: 5 },
+                ports: { questions: questionBank.ports, icon: '🔌', title: 'Ports & Protocols Identification', num: 6 },
+                logs: { questions: logAnalysisSection.questions, icon: '📊', title: 'Log Analysis & Incident Response', num: 7 }
+            };
+
+            const category = categoryMap[categoryName];
+            if (!category) return;
+
+            // Get selected questions for this category
+            const selectedIds = selectedQuestionIds[categoryName] || [];
+            const selectedForCategory = selectedIds.map(id => category.questions.find(q => q.id === id)).filter(q => q);
+
+            // Calculate scaled points for these questions
+            const rawTotal = selectedForCategory.reduce((sum, q) => sum + q.points, 0);
+            if (rawTotal > 0) {
+                const scaleFactor = 100 / rawTotal;
+                selectedForCategory.forEach(q => {
+                    q.scaledPoints = Math.round(q.points * scaleFactor);
+                });
+            }
+
+            // Filter unanswered questions
+            const unansweredQuestions = selectedForCategory.filter(q => questionScores[q.id] === undefined);
+            const categoryPoints = unansweredQuestions.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0);
+
+            let html = `<div class="section">
+                <h2>${category.icon} Section ${category.num}: ${category.title} (${categoryPoints} points)</h2>`;
+
+            if (unansweredQuestions.length === 0) {
+                // All current questions answered - show "Load More" button
+                const totalAvailable = category.questions.length;
+                const totalShown = shownQuestions[categoryName].size;
+                const remainingQuestions = totalAvailable - totalShown;
+
+                html += `<div style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                    <h3 style="color: var(--accent-primary); font-size: 2rem; margin-bottom: 1rem;">Section Complete!</h3>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 1.5rem;">You've answered all questions in this set.</p>`;
+
+                if (remainingQuestions > 0) {
+                    html += `<p style="color: var(--text-muted); margin-bottom: 2rem;">
+                        ${remainingQuestions} more question${remainingQuestions > 1 ? 's' : ''} available in this category
+                    </p>
+                    <button onclick="loadMoreQuestions('${categoryName}')" class="check-answer-btn" style="font-size: 1.1rem; padding: 1rem 2.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                        🔄 Load 5 More Questions
+                    </button>`;
+                } else {
+                    html += `<p style="color: var(--accent-primary); margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+                        🏆 You've completed all ${totalAvailable} questions in this category!
+                    </p>`;
+                }
+
+                html += `</div>`;
+            } else {
+                let currentNum = 1;
+                unansweredQuestions.forEach((q) => {
+                    const result = renderQuestion(q, currentNum, unansweredQuestions.length, currentNum);
+                    html += result.html;
+                    if (!result.wasSkipped) currentNum++;
+                });
+            }
+
+            html += `</div>`;
+
+            // Update the DOM
+            const tabContent = document.getElementById(`tab-${categoryName}`);
+            if (tabContent) {
+                tabContent.innerHTML = html;
+            }
+        }
+
         // Question database is loaded from external file: questions_data.js
         // This keeps the HTML clean and makes question management easier
 
@@ -2535,6 +2687,15 @@
                 selectedDevices = selectedQuestionIds.devices.map(id => questionBank.devices.find(q => q.id === id)).filter(q => q);
                 selectedPorts = selectedQuestionIds.ports.map(id => questionBank.ports.find(q => q.id === id)).filter(q => q);
                 selectedLogs = selectedQuestionIds.logs.map(id => logAnalysisSection.questions.find(q => q.id === id)).filter(q => q);
+
+                // Populate shownQuestions from saved IDs
+                selectedQuestionIds.networking.forEach(id => shownQuestions.networking.add(id));
+                selectedQuestionIds.webattacks.forEach(id => shownQuestions.webattacks.add(id));
+                selectedQuestionIds.firewall.forEach(id => shownQuestions.firewall.add(id));
+                selectedQuestionIds.malware.forEach(id => shownQuestions.malware.add(id));
+                selectedQuestionIds.devices.forEach(id => shownQuestions.devices.add(id));
+                selectedQuestionIds.ports.forEach(id => shownQuestions.ports.add(id));
+                selectedQuestionIds.logs.forEach(id => shownQuestions.logs.add(id));
             } else {
                 // Select 5 questions from each category (7 categories × 5 questions = 35 questions total)
                 selectedNetworking = selectRandomQuestions(questionBank.networking, 5);
@@ -2555,6 +2716,15 @@
                     ports: selectedPorts.map(q => q.id),
                     logs: selectedLogs.map(q => q.id)
                 };
+
+                // Initialize shownQuestions with the first batch
+                selectedNetworking.forEach(q => shownQuestions.networking.add(q.id));
+                selectedWebAttacks.forEach(q => shownQuestions.webattacks.add(q.id));
+                selectedFirewall.forEach(q => shownQuestions.firewall.add(q.id));
+                selectedMalware.forEach(q => shownQuestions.malware.add(q.id));
+                selectedDevices.forEach(q => shownQuestions.devices.add(q.id));
+                selectedPorts.forEach(q => shownQuestions.ports.add(q.id));
+                selectedLogs.forEach(q => shownQuestions.logs.add(q.id));
             }
 
             // Normalize points to total exactly 100
