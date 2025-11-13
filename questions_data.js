@@ -1542,7 +1542,7 @@ const questionBank = {
                 { value: 'file_upload', text: 'File upload vulnerability only' },
                 { value: 'xss', text: 'Stored XSS' },
                 { value: 'polyglot', text: 'Polyglot file' },
-                { value: 'impossible', text: 'Impossible't contain scripts' }
+                { value: 'impossible', text: 'Impossible to execute' }
             ],
             correct: 'mime_sniff',
             explanation: '🔍 MIME Sniffing XSS: Old browsers (IE, Chrome <70) ignore Content-Type: image/jpeg, detect HTML content (sees <html>), execute as HTML = XSS. File contains HTML/JS but has .jpg name and JPEG Content-Type. Defense: **X-Content-Type-Options: nosniff** (force browser to trust Content-Type), validate file content (magic bytes), serve uploads from different domain (S3, CDN), Content-Disposition: attachment. Modern browsers safer but still risk. CWE-79 variant. Test: Upload HTML disguised as image.'
@@ -2366,7 +2366,7 @@ const questionBank = {
             question: 'Can firewall rules filter broadcast traffic (255.255.255.255)?',
             type: 'radio',
             options: [
-                { value: 'no_route', text: 'No't route through firewalls (Layer 2 only)' },
+                { value: 'no_route', text: 'No' },
                 { value: 'yes', text: 'Yes' },
                 { value: 'depends', text: 'Depends on firewall brand' },
                 { value: 'license', text: 'Requires special license' },
