@@ -532,6 +532,36 @@
             color: var(--accent-primary);
         }
 
+        /* Timer pause overlay */
+        .timer-pause-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 95;
+            display: none;
+            pointer-events: all;
+            transition: opacity 0.3s ease;
+        }
+
+        .timer-pause-overlay.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         .submit-btn {
             background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
             color: white;
@@ -1392,6 +1422,9 @@
     </style>
 </head>
 <body>
+    <!-- Timer pause overlay -->
+    <div class="timer-pause-overlay" id="timer-pause-overlay"></div>
+
     <div class="container">
         <div class="header">
             <div class="header-content">
@@ -1872,6 +1905,7 @@
         function toggleTimer() {
             const timerIcon = document.getElementById('timer-icon');
             const timerLabel = document.querySelector('.stat-card .stat-label');
+            const overlay = document.getElementById('timer-pause-overlay');
 
             if (timerPaused) {
                 // Resume timer
@@ -1879,12 +1913,16 @@
                 timerPaused = false;
                 timerIcon.textContent = '⏱️';
                 timerLabel.innerHTML = 'Time Remaining <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 400;">(click to pause)</span>';
+                // Hide overlay
+                overlay.classList.remove('active');
             } else {
                 // Pause timer
                 clearInterval(timerInterval);
                 timerPaused = true;
                 timerIcon.textContent = '⏸️';
                 timerLabel.innerHTML = 'Time Paused <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 400;">(click to resume)</span>';
+                // Show overlay
+                overlay.classList.add('active');
             }
         }
 
