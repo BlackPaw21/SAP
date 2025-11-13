@@ -2343,14 +2343,62 @@
         // Question database is loaded from external file: questions_data.js
         // This keeps the HTML clean and makes question management easier
 
+        // Retry counter for question bank loading
+        let renderQuizRetries = 0;
+        const MAX_RETRIES = 50; // 50 retries × 100ms = 5 seconds max wait
+
         // Render all questions
         function renderQuiz() {
-            // Safety check: ensure questionBank is loaded
-            if (!questionBank || !questionBank.networking || !questionBank.webattacks) {
-                console.error('Question bank not loaded yet, retrying...');
-                setTimeout(renderQuiz, 100);
-                return;
+            // Comprehensive safety check: ensure ALL question categories are loaded with questions
+            const isQuestionBankValid = questionBank &&
+                Array.isArray(questionBank.networking) && questionBank.networking.length > 0 &&
+                Array.isArray(questionBank.webattacks) && questionBank.webattacks.length > 0 &&
+                Array.isArray(questionBank.firewall) && questionBank.firewall.length > 0 &&
+                Array.isArray(questionBank.malware) && questionBank.malware.length > 0 &&
+                Array.isArray(questionBank.devices) && questionBank.devices.length > 0 &&
+                Array.isArray(questionBank.ports) && questionBank.ports.length > 0;
+
+            const isLogSectionValid = logAnalysisSection &&
+                Array.isArray(logAnalysisSection.questions) &&
+                logAnalysisSection.questions.length > 0;
+
+            if (!isQuestionBankValid || !isLogSectionValid) {
+                renderQuizRetries++;
+                console.warn(`Question bank not fully loaded (attempt ${renderQuizRetries}/${MAX_RETRIES}), retrying...`);
+                console.warn('Status:', {
+                    questionBank: !!questionBank,
+                    networking: questionBank?.networking?.length || 0,
+                    webattacks: questionBank?.webattacks?.length || 0,
+                    firewall: questionBank?.firewall?.length || 0,
+                    malware: questionBank?.malware?.length || 0,
+                    devices: questionBank?.devices?.length || 0,
+                    ports: questionBank?.ports?.length || 0,
+                    logAnalysisSection: !!logAnalysisSection,
+                    logQuestions: logAnalysisSection?.questions?.length || 0
+                });
+
+                if (renderQuizRetries < MAX_RETRIES) {
+                    setTimeout(renderQuiz, 100);
+                    return;
+                } else {
+                    console.error('Failed to load question bank after maximum retries. Please refresh the page.');
+                    const content = document.getElementById('quiz-content');
+                    if (content) {
+                        content.innerHTML = `
+                            <div style="text-align: center; padding: 4rem 2rem;">
+                                <div style="font-size: 5rem; margin-bottom: 1rem;">⚠️</div>
+                                <h3 style="color: var(--error); font-size: 2rem; margin-bottom: 1rem;">Loading Error</h3>
+                                <p style="color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 1rem;">Failed to load question database.</p>
+                                <button onclick="location.reload()" class="check-answer-btn" style="margin-top: 1rem;">Refresh Page</button>
+                            </div>
+                        `;
+                    }
+                    return;
+                }
             }
+
+            // Reset retry counter on successful load
+            renderQuizRetries = 0;
 
             const content = document.getElementById('quiz-content');
             let html = '';
