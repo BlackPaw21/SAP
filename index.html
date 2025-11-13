@@ -213,6 +213,7 @@
 
         .content {
             padding: 2rem;
+            margin-left: 220px;
         }
 
         .section {
@@ -480,6 +481,7 @@
         .submit-container {
             text-align: center;
             padding: 3rem 0;
+            margin-left: 220px;
         }
 
         #back-to-top {
@@ -667,39 +669,57 @@
             border-bottom: none;
         }
 
-        /* Tab Navigation */
+        /* Tab Navigation - Left Sidebar */
         .tab-container {
-            background: linear-gradient(135deg, rgba(255, 140, 0, 0.08) 0%, rgba(255, 107, 0, 0.05) 100%);
-            padding: 1.25rem 2rem;
-            border-bottom: 2px solid var(--border-color);
-            backdrop-filter: blur(10px);
+            position: fixed;
+            left: 0;
+            top: 165px;
+            width: 220px;
+            height: calc(100vh - 165px);
+            background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+            border-right: 3px solid var(--border-color);
+            z-index: 90;
+            overflow-y: auto;
+            padding: 1.5rem 0;
+            box-shadow: 4px 0 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .tab-container::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        .tab-container::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 3px;
         }
 
         .tab-nav {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
+            display: flex;
+            flex-direction: column;
             gap: 0.75rem;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 0 1rem;
         }
 
         .tab-btn {
             background: var(--bg-elevated);
             border: 2px solid var(--border-color);
-            padding: 1rem 0.5rem;
+            padding: 1.25rem 1rem;
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
             border-radius: 12px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            white-space: nowrap;
             position: relative;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            gap: 0.4rem;
-            text-align: center;
+            gap: 1rem;
+            text-align: left;
             overflow: hidden;
         }
 
@@ -725,20 +745,21 @@
             color: var(--text-primary);
             background: var(--bg-tertiary);
             border-color: var(--accent-primary);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(255, 140, 0, 0.3);
+            transform: translateX(5px);
+            box-shadow: 4px 0 16px rgba(255, 140, 0, 0.3);
         }
 
         .tab-btn:hover::before {
-            opacity: 0.1;
+            opacity: 0.15;
         }
 
         .tab-btn.active {
             color: white;
             border-color: var(--accent-primary);
             background: var(--bg-elevated);
-            box-shadow: 0 0 24px rgba(255, 140, 0, 0.4), 0 6px 16px rgba(255, 140, 0, 0.3);
-            transform: translateY(-2px);
+            box-shadow: 0 0 24px rgba(255, 140, 0, 0.4), 4px 0 16px rgba(255, 140, 0, 0.3);
+            transform: translateX(8px);
+            border-left: 5px solid var(--accent-primary);
         }
 
         .tab-btn.active::before {
@@ -746,23 +767,44 @@
         }
 
         .tab-btn .tab-icon {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             line-height: 1;
+            min-width: 30px;
+            text-align: center;
         }
 
         .tab-btn .tab-label {
-            font-size: 0.8rem;
-            line-height: 1.2;
+            font-size: 0.9rem;
+            line-height: 1.3;
+            flex: 1;
         }
 
         .tab-btn .tab-badge {
-            display: block;
             background: var(--bg-primary);
-            padding: 0.2rem 0.5rem;
-            border-radius: 10px;
-            font-size: 0.7rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
             color: var(--accent-primary);
-            margin-top: 0.15rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .tab-btn .tab-shortcut {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            background: rgba(255, 140, 0, 0.2);
+            border: 1px solid var(--accent-primary);
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .tab-content {
@@ -1277,12 +1319,8 @@
             font-size: 0.8rem;
         }
 
-        /* Responsive tabs for smaller screens */
+        /* Responsive layout for smaller screens */
         @media (max-width: 1200px) {
-            .tab-nav {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
             .modal-content {
                 max-width: 95%;
             }
@@ -1294,20 +1332,34 @@
         }
 
         @media (max-width: 768px) {
-            .tab-nav {
-                grid-template-columns: repeat(2, 1fr);
+            .tab-container {
+                width: 180px;
+            }
+
+            .content {
+                margin-left: 180px;
+                padding: 1rem;
+            }
+
+            .submit-container {
+                margin-left: 180px;
             }
 
             .tab-btn {
-                padding: 0.7rem 0.4rem;
+                padding: 1rem 0.75rem;
             }
 
             .tab-btn .tab-icon {
-                font-size: 1.3rem;
+                font-size: 1.5rem;
             }
 
             .tab-btn .tab-label {
-                font-size: 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            .tab-btn .tab-badge {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.4rem;
             }
 
             .modal-header {
@@ -1461,40 +1513,47 @@
             </div>
         </div>
 
-        <!-- Tab Navigation -->
+        <!-- Tab Navigation - Fixed Left Sidebar -->
         <div class="tab-container">
             <div class="tab-nav">
-                <button class="tab-btn active" onclick="switchTab('networking')">
+                <button class="tab-btn active" data-tab="networking" onclick="switchTab('networking')">
+                    <span class="tab-shortcut">1</span>
                     <span class="tab-icon">🌐</span>
                     <span class="tab-label">Networking</span>
                     <span class="tab-badge">25pts</span>
                 </button>
-                <button class="tab-btn" onclick="switchTab('webattacks')">
+                <button class="tab-btn" data-tab="webattacks" onclick="switchTab('webattacks')">
+                    <span class="tab-shortcut">2</span>
                     <span class="tab-icon">🔓</span>
                     <span class="tab-label">Web Attacks</span>
                     <span class="tab-badge">30pts</span>
                 </button>
-                <button class="tab-btn" onclick="switchTab('firewall')">
+                <button class="tab-btn" data-tab="firewall" onclick="switchTab('firewall')">
+                    <span class="tab-shortcut">3</span>
                     <span class="tab-icon">🛡️</span>
                     <span class="tab-label">Firewall</span>
                     <span class="tab-badge">25pts</span>
                 </button>
-                <button class="tab-btn" onclick="switchTab('malware')">
+                <button class="tab-btn" data-tab="malware" onclick="switchTab('malware')">
+                    <span class="tab-shortcut">4</span>
                     <span class="tab-icon">🦠</span>
                     <span class="tab-label">Malware</span>
                     <span class="tab-badge">25pts</span>
                 </button>
-                <button class="tab-btn" onclick="switchTab('devices')">
+                <button class="tab-btn" data-tab="devices" onclick="switchTab('devices')">
+                    <span class="tab-shortcut">5</span>
                     <span class="tab-icon">📡</span>
                     <span class="tab-label">Devices</span>
                     <span class="tab-badge">15pts</span>
                 </button>
-                <button class="tab-btn" onclick="switchTab('ports')">
+                <button class="tab-btn" data-tab="ports" onclick="switchTab('ports')">
+                    <span class="tab-shortcut">6</span>
                     <span class="tab-icon">🔌</span>
                     <span class="tab-label">Ports</span>
                     <span class="tab-badge">20pts</span>
                 </button>
-                <button class="tab-btn" onclick="switchTab('logs')">
+                <button class="tab-btn" data-tab="logs" onclick="switchTab('logs')">
+                    <span class="tab-shortcut">7</span>
                     <span class="tab-icon">📊</span>
                     <span class="tab-label">Log Analysis</span>
                     <span class="tab-badge">30pts</span>
@@ -2400,8 +2459,11 @@
                 selectedTab.classList.add('active');
             }
 
-            // Add active class to clicked button
-            event.target.classList.add('active');
+            // Add active class to the correct button (works for both click and keyboard)
+            const targetButton = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+            if (targetButton) {
+                targetButton.classList.add('active');
+            }
 
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
