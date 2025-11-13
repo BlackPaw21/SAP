@@ -2225,22 +2225,24 @@
             updateQuestionScore(qid, points);
             displayFeedback(qid, feedback, isCorrect ? 'correct' : (points > 0 ? 'partial' : 'incorrect'));
 
-            // Smooth scroll to next question after a short delay
-            setTimeout(() => {
-                const currentBlock = document.getElementById(`feedback-${qid}`).closest('.question-block');
-                const allBlocks = Array.from(document.querySelectorAll('.question-block'));
-                const currentIndex = allBlocks.indexOf(currentBlock);
+            // Smooth scroll to next question ONLY if answer was correct
+            if (isCorrect) {
+                setTimeout(() => {
+                    const currentBlock = document.getElementById(`feedback-${qid}`).closest('.question-block');
+                    const allBlocks = Array.from(document.querySelectorAll('.question-block'));
+                    const currentIndex = allBlocks.indexOf(currentBlock);
 
-                // Find next unanswered question
-                for (let i = currentIndex + 1; i < allBlocks.length; i++) {
-                    const nextBlock = allBlocks[i];
-                    const checkBtn = nextBlock.querySelector('.check-answer-btn');
-                    if (checkBtn) {
-                        nextBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        break;
+                    // Find next unanswered question
+                    for (let i = currentIndex + 1; i < allBlocks.length; i++) {
+                        const nextBlock = allBlocks[i];
+                        const checkBtn = nextBlock.querySelector('.check-answer-btn');
+                        if (checkBtn) {
+                            nextBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            break;
+                        }
                     }
-                }
-            }, 800);
+                }, 800);
+            }
         }
 
         function findQuestion(qid) {
