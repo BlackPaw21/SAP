@@ -484,10 +484,51 @@
             color: var(--warning);
         }
 
-        .submit-container {
-            text-align: center;
-            padding: 3rem 0;
-            margin-left: 240px;
+        /* Acronym tooltip styles */
+        .acronym-tooltip {
+            color: #ff9f5a;
+            font-weight: 600;
+            cursor: help;
+            border-bottom: 1px dotted #ff9f5a;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .acronym-tooltip:hover {
+            color: #ffb380;
+            border-bottom-color: #ffb380;
+        }
+
+        .acronym-tooltip[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            color: #ff9f5a;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            white-space: nowrap;
+            font-size: 0.75rem;
+            font-weight: 500;
+            z-index: 1000;
+            border: 1px solid #ff9f5a;
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+            margin-bottom: 0.5rem;
+            pointer-events: none;
+        }
+
+        .acronym-tooltip[title]:hover::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #ff9f5a;
+            z-index: 1001;
+            margin-bottom: -0.75rem;
         }
 
         #back-to-top {
@@ -566,50 +607,6 @@
             to {
                 opacity: 1;
             }
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
-            color: white;
-            border: none;
-            padding: 1.5rem 4rem;
-            border-radius: 12px;
-            font-size: 1.35rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 12px 32px rgba(255, 140, 0, 0.6);
-        }
-
-        .submit-btn:active {
-            transform: translateY(-1px) scale(1);
-            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
-        }
-
-        .final-score {
-            background: var(--bg-elevated);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-top: 2rem;
-            border: 2px solid var(--accent-primary);
-        }
-
-        .final-score h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .final-score .score {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--accent-primary);
         }
 
         .input-group {
@@ -1388,10 +1385,6 @@
                 padding: 1.5rem;
             }
 
-            .submit-container {
-                margin-left: 200px;
-            }
-
             .tab-btn {
                 padding: 1.25rem 0.75rem;
                 min-height: 75px;
@@ -1488,11 +1481,6 @@
                 padding: 1rem;
             }
 
-            .submit-container {
-                margin-left: 0;
-                padding-bottom: 1rem;
-            }
-
             /* Horizontal stat cards in single line to save space */
             .progress-info {
                 grid-template-columns: repeat(3, 1fr);
@@ -1562,8 +1550,7 @@
             }
 
             /* Adjust buttons for touch */
-            .check-answer-btn,
-            .submit-btn {
+            .check-answer-btn {
                 padding: 1.25rem 2rem;
                 font-size: 1rem;
                 min-height: 50px;
@@ -1826,8 +1813,7 @@
                 font-size: 0.65rem;
             }
 
-            .check-answer-btn,
-            .submit-btn {
+            .check-answer-btn {
                 padding: 1rem 1.5rem;
                 font-size: 0.95rem;
             }
@@ -2078,38 +2064,6 @@
             </div>
         </div>
 
-        <!-- Submit Confirmation Modal -->
-        <div id="submit-modal" class="modal-overlay" style="display: none;">
-            <div class="modal-content restore-modal-content">
-                <div class="modal-body" style="padding: 3rem;">
-                    <div class="restore-modal-icon">⚠️</div>
-                    <h2 class="restore-modal-title">Submit Assessment?</h2>
-                    <p class="restore-modal-message">
-                        Are you ready to submit your assessment for final grading?
-                    </p>
-
-                    <div class="restore-modal-info">
-                        <p><strong>⚠️</strong> Once submitted, you cannot make any changes</p>
-                        <p><strong>⚠️</strong> Your timer will stop immediately</p>
-                        <p><strong>⚠️</strong> All progress will be saved and evaluated</p>
-                    </div>
-
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">
-                        Take your time - you can continue working if you're not ready yet.
-                    </p>
-
-                    <div class="restore-modal-buttons">
-                        <button class="restore-modal-btn restore" onclick="confirmSubmit()">
-                            <span>✅</span> Submit Now
-                        </button>
-                        <button class="restore-modal-btn new" onclick="closeSubmitModal()">
-                            <span>⏸️</span> Continue Working
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Tab Navigation - Fixed Left Sidebar -->
         <div class="tab-container">
             <div class="tab-nav">
@@ -2174,10 +2128,6 @@
 
         <div class="content" id="quiz-content">
             <!-- Questions will be dynamically inserted here -->
-        </div>
-
-        <div class="submit-container">
-            <button class="submit-btn" onclick="showFinalScore()">Submit Assessment</button>
         </div>
     </div>
 
@@ -2980,26 +2930,7 @@
             }
 
             updateQuestionScore(qid, points);
-            displayFeedback(qid, feedback, explanation, isCorrect ? 'correct' : (points > 0 ? 'partial' : 'incorrect'));
-
-            // Smooth scroll to next question ONLY if answer was correct
-            if (isCorrect) {
-                setTimeout(() => {
-                    const currentBlock = document.getElementById(`feedback-${qid}`).closest('.question-block');
-                    const allBlocks = Array.from(document.querySelectorAll('.question-block'));
-                    const currentIndex = allBlocks.indexOf(currentBlock);
-
-                    // Find next unanswered question
-                    for (let i = currentIndex + 1; i < allBlocks.length; i++) {
-                        const nextBlock = allBlocks[i];
-                        const checkBtn = nextBlock.querySelector('.check-answer-btn');
-                        if (checkBtn) {
-                            nextBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            break;
-                        }
-                    }
-                }, 800);
-            }
+            displayFeedback(qid, feedback, explanation, isCorrect ? 'correct' : (points > 0 ? 'partial' : 'incorrect'), qid);
         }
 
         function findQuestion(qid) {
@@ -3090,12 +3021,254 @@
             localStorage.removeItem('achievementProgress');
         }
 
-        function displayFeedback(qid, message, explanation, type) {
+        // Acronym definitions for tooltips
+        const acronyms = {
+            'HA': 'High Availability',
+            'DNS': 'Domain Name System',
+            'HTTP': 'Hypertext Transfer Protocol',
+            'HTTPS': 'Hypertext Transfer Protocol Secure',
+            'SQL': 'Structured Query Language',
+            'XSS': 'Cross-Site Scripting',
+            'CSRF': 'Cross-Site Request Forgery',
+            'DoS': 'Denial of Service',
+            'DDoS': 'Distributed Denial of Service',
+            'VPN': 'Virtual Private Network',
+            'IP': 'Internet Protocol',
+            'TCP': 'Transmission Control Protocol',
+            'UDP': 'User Datagram Protocol',
+            'ICMP': 'Internet Control Message Protocol',
+            'ARP': 'Address Resolution Protocol',
+            'MAC': 'Media Access Control',
+            'VLAN': 'Virtual Local Area Network',
+            'ACL': 'Access Control List',
+            'IDS': 'Intrusion Detection System',
+            'IPS': 'Intrusion Prevention System',
+            'SIEM': 'Security Information and Event Management',
+            'SOC': 'Security Operations Center',
+            'C2': 'Command and Control',
+            'IOC': 'Indicator of Compromise',
+            'TTL': 'Time To Live',
+            'MTU': 'Maximum Transmission Unit',
+            'NAT': 'Network Address Translation',
+            'DHCP': 'Dynamic Host Configuration Protocol',
+            'SSL': 'Secure Sockets Layer',
+            'TLS': 'Transport Layer Security',
+            'CA': 'Certificate Authority',
+            'PKI': 'Public Key Infrastructure',
+            'MFA': 'Multi-Factor Authentication',
+            'SSO': 'Single Sign-On',
+            'LDAP': 'Lightweight Directory Access Protocol',
+            'RDP': 'Remote Desktop Protocol',
+            'SSH': 'Secure Shell',
+            'FTP': 'File Transfer Protocol',
+            'SMTP': 'Simple Mail Transfer Protocol',
+            'POP3': 'Post Office Protocol 3',
+            'IMAP': 'Internet Message Access Protocol',
+            'URL': 'Uniform Resource Locator',
+            'URI': 'Uniform Resource Identifier',
+            'API': 'Application Programming Interface',
+            'REST': 'Representational State Transfer',
+            'JSON': 'JavaScript Object Notation',
+            'XML': 'Extensible Markup Language',
+            'BGP': 'Border Gateway Protocol',
+            'OSPF': 'Open Shortest Path First',
+            'SNMP': 'Simple Network Management Protocol',
+            'NTP': 'Network Time Protocol',
+            'SYN': 'Synchronize',
+            'ACK': 'Acknowledge',
+            'RST': 'Reset',
+            'FIN': 'Finish',
+            'PSH': 'Push',
+            'URG': 'Urgent',
+            'CIDR': 'Classless Inter-Domain Routing',
+            'LAN': 'Local Area Network',
+            'WAN': 'Wide Area Network',
+            'DMZ': 'Demilitarized Zone',
+            'VNC': 'Virtual Network Computing',
+            'MITM': 'Man-in-the-Middle',
+            'NBNS': 'NetBIOS Name Service',
+            'LLMNR': 'Link-Local Multicast Name Resolution',
+            'WINS': 'Windows Internet Name Service',
+            'AD': 'Active Directory',
+            'DC': 'Domain Controller',
+            'GPO': 'Group Policy Object',
+            'NTLM': 'NT LAN Manager',
+            'SMB': 'Server Message Block',
+            'CIFS': 'Common Internet File System',
+            'NFS': 'Network File System',
+            'IRC': 'Internet Relay Chat',
+            'DGA': 'Domain Generation Algorithm',
+            'PAC': 'Proxy Auto-Config',
+            'WPAD': 'Web Proxy Auto-Discovery',
+            'OUI': 'Organizationally Unique Identifier',
+            'STP': 'Spanning Tree Protocol',
+            'DTP': 'Dynamic Trunking Protocol',
+            'QoS': 'Quality of Service',
+            'VoIP': 'Voice over IP',
+            'SIP': 'Session Initiation Protocol',
+            'RTP': 'Real-time Transport Protocol',
+            'RTSP': 'Real Time Streaming Protocol',
+            'WAF': 'Web Application Firewall',
+            'CDN': 'Content Delivery Network',
+            'OSI': 'Open Systems Interconnection',
+            'CVE': 'Common Vulnerabilities and Exposures',
+            'CWE': 'Common Weakness Enumeration',
+            'OWASP': 'Open Web Application Security Project',
+            'MITRE': 'MITRE ATT&CK Framework',
+            'IoT': 'Internet of Things',
+            'VM': 'Virtual Machine',
+            'RADIUS': 'Remote Authentication Dial-In User Service',
+            'TACACS': 'Terminal Access Controller Access-Control System',
+            'Kerberos': 'Kerberos Authentication Protocol',
+            'SAML': 'Security Assertion Markup Language',
+            'OAuth': 'Open Authorization',
+            'JWT': 'JSON Web Token',
+            'CORS': 'Cross-Origin Resource Sharing',
+            'CSP': 'Content Security Policy',
+            'HSTS': 'HTTP Strict Transport Security',
+            'XST': 'Cross-Site Tracing',
+            'XXE': 'XML External Entity',
+            'SSRF': 'Server-Side Request Forgery',
+            'IDOR': 'Insecure Direct Object Reference',
+            'RCE': 'Remote Code Execution',
+            'LFI': 'Local File Inclusion',
+            'RFI': 'Remote File Inclusion',
+            'SQLi': 'SQL Injection',
+            'NoSQL': 'Not Only SQL',
+            'LDAP': 'Lightweight Directory Access Protocol',
+            'CR LF': 'Carriage Return Line Feed',
+            'TTY': 'Teletypewriter',
+            'PTY': 'Pseudo Terminal',
+            'AES': 'Advanced Encryption Standard',
+            'RSA': 'Rivest-Shamir-Adleman',
+            'SHA': 'Secure Hash Algorithm',
+            'MD5': 'Message Digest 5',
+            'HMAC': 'Hash-based Message Authentication Code',
+            'ECB': 'Electronic Codebook',
+            'CBC': 'Cipher Block Chaining',
+            'GCM': 'Galois/Counter Mode',
+            'RC4': 'Rivest Cipher 4',
+            'DES': 'Data Encryption Standard',
+            '3DES': 'Triple DES',
+            'PFS': 'Perfect Forward Secrecy',
+            'OCSP': 'Online Certificate Status Protocol',
+            'CRL': 'Certificate Revocation List',
+            'SAN': 'Subject Alternative Name',
+            'CN': 'Common Name',
+            'DLP': 'Data Loss Prevention',
+            'EDR': 'Endpoint Detection and Response',
+            'NDR': 'Network Detection and Response',
+            'XDR': 'Extended Detection and Response',
+            'SOAR': 'Security Orchestration, Automation and Response',
+            'TTP': 'Tactics, Techniques, and Procedures',
+            'APT': 'Advanced Persistent Threat',
+            'RAT': 'Remote Access Trojan',
+            'C&C': 'Command and Control',
+            'Tor': 'The Onion Router',
+            'VPS': 'Virtual Private Server',
+            'AWS': 'Amazon Web Services',
+            'Azure': 'Microsoft Azure',
+            'GCP': 'Google Cloud Platform',
+            'S3': 'Simple Storage Service',
+            'IAM': 'Identity and Access Management',
+            'SG': 'Security Group',
+            'NACL': 'Network Access Control List',
+            'VPC': 'Virtual Private Cloud',
+            'ELB': 'Elastic Load Balancer',
+            'ALB': 'Application Load Balancer',
+            'NLB': 'Network Load Balancer',
+            'WAF': 'Web Application Firewall',
+            'CloudTrail': 'AWS CloudTrail',
+            'GuardDuty': 'AWS GuardDuty',
+            'CloudWatch': 'AWS CloudWatch',
+            'Splunk': 'Splunk Enterprise',
+            'ELK': 'Elasticsearch, Logstash, Kibana',
+            'Suricata': 'Suricata IDS/IPS',
+            'Snort': 'Snort IDS/IPS',
+            'Zeek': 'Zeek Network Monitor',
+            'Wireshark': 'Wireshark Network Analyzer',
+            'tcpdump': 'TCP Dump',
+            'nmap': 'Network Mapper',
+            'Nessus': 'Nessus Vulnerability Scanner',
+            'Metasploit': 'Metasploit Framework',
+            'Burp': 'Burp Suite',
+            'OWASP ZAP': 'OWASP Zed Attack Proxy',
+            'Nikto': 'Nikto Web Scanner',
+            'SQLMap': 'SQL Map',
+            'Hydra': 'THC Hydra',
+            'John': 'John the Ripper',
+            'Hashcat': 'Hashcat Password Cracker',
+            'Mimikatz': 'Mimikatz',
+            'PowerShell': 'Windows PowerShell',
+            'CMD': 'Command Prompt',
+            'Bash': 'Bourne Again Shell',
+            'PE': 'Portable Executable',
+            'ELF': 'Executable and Linkable Format',
+            'DLL': 'Dynamic Link Library',
+            'EXE': 'Executable',
+            'MSI': 'Microsoft Installer',
+            'JAR': 'Java Archive',
+            'APK': 'Android Package',
+            'YARA': 'Yet Another Recursive Acronym',
+            'STIX': 'Structured Threat Information Expression',
+            'TAXII': 'Trusted Automated Exchange of Intelligence Information',
+            'TI': 'Threat Intelligence',
+            'CTI': 'Cyber Threat Intelligence',
+            'OSINT': 'Open Source Intelligence',
+            'SIGINT': 'Signals Intelligence',
+            'HUMINT': 'Human Intelligence',
+            'TOR': 'Terms of Reference',
+            'RFC': 'Request for Comments',
+            'IANA': 'Internet Assigned Numbers Authority',
+            'IETF': 'Internet Engineering Task Force',
+            'IEEE': 'Institute of Electrical and Electronics Engineers',
+            'ISO': 'International Organization for Standardization',
+            'NIST': 'National Institute of Standards and Technology',
+            'PCI DSS': 'Payment Card Industry Data Security Standard',
+            'GDPR': 'General Data Protection Regulation',
+            'HIPAA': 'Health Insurance Portability and Accountability Act',
+            'SOX': 'Sarbanes-Oxley Act',
+            'FISMA': 'Federal Information Security Management Act',
+            'FedRAMP': 'Federal Risk and Authorization Management Program',
+            'CIS': 'Center for Internet Security',
+            'SANS': 'SysAdmin, Audit, Network, and Security',
+            'CERT': 'Computer Emergency Response Team',
+            'CISA': 'Cybersecurity and Infrastructure Security Agency',
+            'FBI': 'Federal Bureau of Investigation',
+            'NSA': 'National Security Agency',
+            'CIA': 'Central Intelligence Agency',
+            'DHS': 'Department of Homeland Security',
+            'DOD': 'Department of Defense',
+            'DARPA': 'Defense Advanced Research Projects Agency',
+            'NATO': 'North Atlantic Treaty Organization',
+            'ENISA': 'European Union Agency for Cybersecurity',
+            'NCSC': 'National Cyber Security Centre'
+        };
+
+        // Function to add acronym tooltips to text
+        function addAcronymTooltips(text) {
+            // Sort acronyms by length (longest first) to handle cases like "HTTP" before "HTTP"
+            const sortedAcronyms = Object.keys(acronyms).sort((a, b) => b.length - a.length);
+
+            let processedText = text;
+            sortedAcronyms.forEach(acronym => {
+                // Match whole word only, case-sensitive
+                const regex = new RegExp(`\\b(${acronym})\\b`, 'g');
+                processedText = processedText.replace(regex, (match) => {
+                    return `<span class="acronym-tooltip" title="${acronyms[acronym]}">${match}</span>`;
+                });
+            });
+
+            return processedText;
+        }
+
+        function displayFeedback(qid, message, explanation, type, questionId) {
             const feedbackDiv = document.getElementById(`feedback-${qid}`);
             feedbackDiv.className = `feedback ${type}`;
 
             let html = `<div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                <div style="font-weight: 600; font-size: 1.05rem;">${message}</div>`;
+                <div style="font-weight: 600; font-size: 1.05rem;">${message}</div>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">`;
 
             if (explanation) {
                 html += `<button onclick="toggleExplanation('${qid}')" class="check-answer-btn" style="margin: 0; padding: 0.5rem 1.25rem; font-size: 0.85rem;">
@@ -3103,17 +3276,56 @@
                 </button>`;
             }
 
-            html += `</div>`;
+            // Add "Next Question" button
+            html += `<button onclick="scrollToNextQuestion('${qid}')" class="check-answer-btn" style="margin: 0; padding: 0.5rem 1.25rem; font-size: 0.85rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                Next Question →
+            </button>`;
+
+            html += `</div></div>`;
 
             if (explanation) {
-                // Simplify explanation by removing emoji and keeping it concise
-                let simplifiedExplanation = explanation.replace(/^[^\w\s]+\s*/, ''); // Remove leading emojis
-                html += `<div id="explanation-${qid}" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); color: var(--text-secondary); line-height: 1.7;">
-                    ${simplifiedExplanation}
+                // Format explanation: remove leading emoji, split into paragraphs, add acronym tooltips
+                let formattedExplanation = explanation.replace(/^[^\w\s]+\s*/, ''); // Remove leading emojis
+
+                // Split by periods followed by capital letters or bullets for better formatting
+                formattedExplanation = formattedExplanation
+                    .split(/\.\s+(?=[A-Z])/g)
+                    .map(sentence => sentence.trim())
+                    .filter(sentence => sentence.length > 0)
+                    .map(sentence => {
+                        // Add period back if not present
+                        if (!sentence.endsWith('.') && !sentence.endsWith('!') && !sentence.endsWith('?')) {
+                            sentence += '.';
+                        }
+                        return `<p style="margin-bottom: 0.75rem;">${addAcronymTooltips(sentence)}</p>`;
+                    })
+                    .join('');
+
+                html += `<div id="explanation-${qid}" style="display: none; margin-top: 1rem; padding: 1.25rem; border-top: 1px solid var(--border-color); background: rgba(255, 140, 0, 0.03); border-radius: 8px; color: var(--text-primary); line-height: 1.8; font-size: 0.95rem;">
+                    ${formattedExplanation}
                 </div>`;
             }
 
             feedbackDiv.innerHTML = html;
+        }
+
+        function scrollToNextQuestion(currentQid) {
+            const currentBlock = document.getElementById(`feedback-${currentQid}`).closest('.question-block');
+            const allBlocks = Array.from(document.querySelectorAll('.question-block'));
+            const currentIndex = allBlocks.indexOf(currentBlock);
+
+            // Find next unanswered question
+            for (let i = currentIndex + 1; i < allBlocks.length; i++) {
+                const nextBlock = allBlocks[i];
+                const checkBtn = nextBlock.querySelector('.check-answer-btn');
+                if (checkBtn) {
+                    nextBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+            }
+
+            // If no more questions in current category, show message
+            alert('You have completed all available questions in this category! 🎉 Switch to another category or click "New Questions" to load more.');
         }
 
         function toggleExplanation(qid) {
@@ -3127,45 +3339,6 @@
                 explanationDiv.style.display = 'none';
                 btnText.textContent = 'Show Answer';
             }
-        }
-
-        function showFinalScore() {
-            // Show confirmation modal instead of alert
-            document.getElementById('submit-modal').style.display = 'flex';
-        }
-
-        function closeSubmitModal() {
-            document.getElementById('submit-modal').style.display = 'none';
-        }
-
-        function confirmSubmit() {
-            // Stop the timer
-            clearInterval(timerInterval);
-
-            // Clear saved progress
-            clearProgress();
-
-            // Close modal
-            document.getElementById('submit-modal').style.display = 'none';
-
-            const percentage = (totalScore / maxScore) * 100;
-            let grade, message;
-
-            if (percentage >= 90) {
-                grade = 'Excellent';
-                message = 'Outstanding performance! You demonstrate strong SOC analyst skills.';
-            } else if (percentage >= 80) {
-                grade = 'Very Good';
-                message = 'Great work! You have a solid understanding of SOC operations.';
-            } else if (percentage >= 70) {
-                grade = 'Pass';
-                message = 'You passed! Continue studying to strengthen your skills.';
-            } else {
-                grade = 'Needs Improvement';
-                message = 'Keep studying. Review network protocols, log analysis, and MITRE ATT&CK framework.';
-            }
-
-            alert(`✅ FINAL ASSESSMENT RESULTS\n\nScore: ${totalScore} / ${maxScore} (${percentage.toFixed(1)}%)\nGrade: ${grade}\n\n${message}\n\nTime Used: ${Math.floor((5400 - timeRemaining) / 60)} minutes`);
         }
 
         // Tab switching function
