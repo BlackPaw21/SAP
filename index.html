@@ -45,11 +45,12 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            background: var(--bg-primary);
             padding: 2rem 2rem 1.5rem;
             text-align: center;
             position: relative;
             overflow: hidden;
+            border-bottom: 2px solid var(--border-color);
         }
 
         .header::before {
@@ -69,17 +70,22 @@
         }
 
         .header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 0.4rem;
-            color: white;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.05em;
+            text-shadow: none;
         }
 
         .header p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: 500;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            letter-spacing: 0.02em;
         }
 
         .progress-container {
@@ -102,12 +108,12 @@
 
         .stat-card {
             background: var(--bg-elevated);
-            padding: 1rem 1.25rem;
+            padding: 0.75rem 1rem;
             border-radius: 10px;
             border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
             transition: all 0.3s ease;
         }
 
@@ -131,7 +137,7 @@
         }
 
         .stat-icon {
-            font-size: 2rem;
+            font-size: 1.5rem;
             line-height: 1;
         }
 
@@ -140,15 +146,15 @@
         }
 
         .stat-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--text-muted);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--text-primary);
         }
@@ -1412,11 +1418,11 @@
             }
 
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 2.5rem;
             }
 
             .header p {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
 
             /* Hide keyboard shortcuts on mobile */
@@ -1612,17 +1618,27 @@
             }
 
             .achievement-tabs {
-                padding: 0.5rem;
+                padding: 0.75rem 0.5rem;
                 overflow-x: auto;
                 flex-wrap: nowrap;
                 justify-content: flex-start;
                 -webkit-overflow-scrolling: touch;
+                gap: 0.75rem;
+                background: var(--bg-primary);
             }
 
             .achievement-tab {
-                font-size: 0.75rem;
-                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+                padding: 0.75rem 1rem;
                 flex-shrink: 0;
+                min-width: 120px;
+                text-align: center;
+                border-radius: 10px;
+            }
+
+            .achievement-tab.active {
+                transform: scale(1.05);
+                font-weight: 700;
             }
 
             .modal-body {
@@ -1665,10 +1681,11 @@
                 font-size: 0.85rem;
             }
 
-            /* Back to top button - above bottom tabs on mobile */
+            /* Back to top button - bottom left above bottom tabs on mobile */
             #back-to-top {
                 bottom: 135px;
-                right: 10px;
+                left: 10px;
+                right: auto;
                 width: 48px;
                 height: 48px;
                 padding: 0;
@@ -1755,11 +1772,11 @@
         /* Small mobile phones */
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 1.5rem;
+                font-size: 2rem;
             }
 
             .header p {
-                font-size: 0.8rem;
+                font-size: 0.85rem;
             }
 
             .header {
@@ -1823,10 +1840,11 @@
                 padding: 1rem;
             }
 
-            /* Square back-to-top button for small phones - above tabs */
+            /* Square back-to-top button for small phones - bottom left above tabs */
             #back-to-top {
                 bottom: 130px;
-                right: 8px;
+                left: 8px;
+                right: auto;
                 width: 44px;
                 height: 44px;
                 padding: 0;
@@ -1850,12 +1868,15 @@
             }
 
             .achievement-tabs {
-                padding: 0.4rem;
+                padding: 0.6rem 0.4rem;
+                gap: 0.6rem;
             }
 
             .achievement-tab {
-                font-size: 0.7rem;
-                padding: 0.4rem 0.65rem;
+                font-size: 0.75rem;
+                padding: 0.65rem 0.85rem;
+                min-width: 110px;
+                border-width: 2px;
             }
 
             .modal-body {
@@ -1961,8 +1982,8 @@
     <div class="container">
         <div class="header">
             <div class="header-content">
-                <h1>SOC Analyst Professional Training</h1>
-                <p>Tier-1 Security Operations Center Assessment | 90 Minutes | 100 Points</p>
+                <h1>SAP</h1>
+                <p>SOC Analyst Professional</p>
             </div>
         </div>
 
@@ -2199,6 +2220,7 @@
 
         // Achievement tiers per category (50 questions each)
         const categoryAchievements = [
+            { questions: 1, name: 'Rookie', icon: '🌱', color: '#10b981' },
             { questions: 5, name: 'Novice', icon: '🥉', color: '#cd7f32' },
             { questions: 10, name: 'Apprentice', icon: '📚', color: '#8b949e' },
             { questions: 15, name: 'Practitioner', icon: '⭐', color: '#58a6ff' },
@@ -2233,12 +2255,23 @@
         }
 
         function updateAchievements() {
-            const questionsAnswered = answeredQuestions.size;
+            // Count total achievements unlocked across all categories
+            let totalAchievementsUnlocked = 0;
 
-            // Update badge counter on button (always update, even if 0)
+            Object.keys(categoryProgress).forEach(category => {
+                const categoryCount = categoryProgress[category].size;
+                // Count how many achievement tiers have been unlocked for this category
+                categoryAchievements.forEach(achievement => {
+                    if (categoryCount >= achievement.questions) {
+                        totalAchievementsUnlocked++;
+                    }
+                });
+            });
+
+            // Update badge counter on button (show achievement count)
             const badgeCount = document.getElementById('achievement-badge-count');
             if (badgeCount) {
-                badgeCount.textContent = questionsAnswered;
+                badgeCount.textContent = totalAchievementsUnlocked;
                 badgeCount.style.display = 'block';
             }
 
@@ -2882,6 +2915,7 @@
 
             let userAnswer, isCorrect = false, points = 0;
             let feedback = '';
+            let explanation = question.explanation || '';
 
             if (question.type === 'radio') {
                 userAnswer = document.querySelector(`input[name="${qid}"]:checked`)?.value;
@@ -2889,17 +2923,9 @@
                 points = isCorrect ? (question.scaledPoints || question.points) : 0;
 
                 if (isCorrect) {
-                    feedback = `✓ Correct! You earned ${points} points.`;
-                    if (question.explanation) {
-                        feedback += `<br><small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">${question.explanation}</small>`;
-                    }
+                    feedback = `✓ Correct! (+${points} points)`;
                 } else {
-                    feedback = `✗ Incorrect. `;
-                    if (question.explanation) {
-                        feedback += question.explanation;
-                    } else {
-                        feedback += `The correct answer is: ${question.correct}`;
-                    }
+                    feedback = `✗ Incorrect`;
                 }
             } else if (question.type === 'checkbox') {
                 userAnswer = Array.from(document.querySelectorAll(`input[name="${qid}"]:checked`)).map(cb => cb.value);
@@ -2914,16 +2940,10 @@
                 if (correctSelections === question.correct.length && incorrectSelections === 0) {
                     isCorrect = true;
                     points = maxPoints;
-                    feedback = `✓ Perfect! You earned ${points} points.`;
-                    if (question.explanation) {
-                        feedback += `<br><small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">${question.explanation}</small>`;
-                    }
+                    feedback = `✓ Correct! (+${points} points)`;
                 } else {
                     points = Math.max(0, Math.round((correctSelections / question.correct.length) * maxPoints) - incorrectSelections);
-                    feedback = `Partial credit: ${points}/${maxPoints} points. Correct: ${correctSelections}, Incorrect: ${incorrectSelections}, Missed: ${missedCorrect}`;
-                    if (question.explanation) {
-                        feedback += `<br><small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">${question.explanation}</small>`;
-                    }
+                    feedback = `⚠ Partially Correct (+${points}/${maxPoints} points)`;
                 }
             } else if (question.type === 'matching') {
                 let correct = 0;
@@ -2934,9 +2954,12 @@
                 });
                 points = Math.round((correct / question.pairs.length) * maxPoints);
                 isCorrect = correct === question.pairs.length;
-                feedback = isCorrect ?
-                    `Perfect matching! You earned ${points} points.` :
-                    `Partial credit: ${correct}/${question.pairs.length} correct. Points: ${points}/${maxPoints}`;
+
+                if (isCorrect) {
+                    feedback = `✓ Correct! (+${points} points)`;
+                } else {
+                    feedback = `⚠ Partially Correct (+${points}/${maxPoints} points)`;
+                }
             } else if (question.type === 'textarea') {
                 const maxPoints = question.scaledPoints || question.points;
                 points = maxPoints;
@@ -2957,7 +2980,7 @@
             }
 
             updateQuestionScore(qid, points);
-            displayFeedback(qid, feedback, isCorrect ? 'correct' : (points > 0 ? 'partial' : 'incorrect'));
+            displayFeedback(qid, feedback, explanation, isCorrect ? 'correct' : (points > 0 ? 'partial' : 'incorrect'));
 
             // Smooth scroll to next question ONLY if answer was correct
             if (isCorrect) {
@@ -3067,10 +3090,43 @@
             localStorage.removeItem('achievementProgress');
         }
 
-        function displayFeedback(qid, message, type) {
+        function displayFeedback(qid, message, explanation, type) {
             const feedbackDiv = document.getElementById(`feedback-${qid}`);
             feedbackDiv.className = `feedback ${type}`;
-            feedbackDiv.innerHTML = message;
+
+            let html = `<div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <div style="font-weight: 600; font-size: 1.05rem;">${message}</div>`;
+
+            if (explanation) {
+                html += `<button onclick="toggleExplanation('${qid}')" class="check-answer-btn" style="margin: 0; padding: 0.5rem 1.25rem; font-size: 0.85rem;">
+                    <span id="btn-text-${qid}">Show Answer</span>
+                </button>`;
+            }
+
+            html += `</div>`;
+
+            if (explanation) {
+                // Simplify explanation by removing emoji and keeping it concise
+                let simplifiedExplanation = explanation.replace(/^[^\w\s]+\s*/, ''); // Remove leading emojis
+                html += `<div id="explanation-${qid}" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); color: var(--text-secondary); line-height: 1.7;">
+                    ${simplifiedExplanation}
+                </div>`;
+            }
+
+            feedbackDiv.innerHTML = html;
+        }
+
+        function toggleExplanation(qid) {
+            const explanationDiv = document.getElementById(`explanation-${qid}`);
+            const btnText = document.getElementById(`btn-text-${qid}`);
+
+            if (explanationDiv.style.display === 'none') {
+                explanationDiv.style.display = 'block';
+                btnText.textContent = 'Hide Answer';
+            } else {
+                explanationDiv.style.display = 'none';
+                btnText.textContent = 'Show Answer';
+            }
         }
 
         function showFinalScore() {
