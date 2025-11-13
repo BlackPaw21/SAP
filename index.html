@@ -1397,10 +1397,10 @@
                         <div class="stat-value score-display"><span id="current-score">0</span> / 100</div>
                     </div>
                 </div>
-                <div class="stat-card" style="cursor: pointer;" onclick="showAchievementsModal()">
+                <div class="stat-card" style="cursor: pointer;" onclick="showAchievementsModal()" title="Click to view achievements">
                     <div class="stat-icon">🏆</div>
                     <div class="stat-content">
-                        <div class="stat-label">Achievements</div>
+                        <div class="stat-label">Achievements <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 400;">(click to expand)</span></div>
                         <div class="stat-value"><span id="achievement-badge-count">0</span></div>
                     </div>
                 </div>
@@ -1634,9 +1634,9 @@
         function updateAchievements() {
             const questionsAnswered = answeredQuestions.size;
 
-            // Update badge counter on button
+            // Update badge counter on button (always update, even if 0)
             const badgeCount = document.getElementById('achievement-badge-count');
-            if (badgeCount && questionsAnswered > 0) {
+            if (badgeCount) {
                 badgeCount.textContent = questionsAnswered;
                 badgeCount.style.display = 'block';
             }
