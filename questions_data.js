@@ -40,11 +40,11 @@ const questionBank = {
             question: 'You observe traffic on port 3389 from multiple external IPs to your internal server 192.168.50.10. What protocol is this and why is it concerning?',
             type: 'radio',
             options: [
-                { value: 'rdp', text: 'RDP' },
-                { value: 'smb', text: 'SMB' },
-                { value: 'sql', text: 'MS-SQL' },
-                { value: 'ssh', text: 'SSH' },
-                { value: 'vnc', text: 'VNC' }
+                { value: 'rdp', text: 'RDP (Remote Desktop)' },
+                { value: 'ssh', text: 'SSH (Secure Shell)' },
+                { value: 'vnc', text: 'VNC (Virtual Desktop)' },
+                { value: 'xrdp', text: 'X11 Remote Display' },
+                { value: 'wts', text: 'Windows Terminal Services' }
             ],
             correct: 'rdp',
             explanation: '🚨 Port 3389 = RDP (Remote Desktop Protocol). Multiple external IPs = active brute force campaign. RDP exposed to internet is a CRITICAL vulnerability - common ransomware entry point. Best practice: Disable external RDP, use VPN with MFA, or implement RDP gateway. See: BlueKeep (CVE-2019-0708), DejaBlue attacks.'
@@ -58,8 +58,9 @@ const questionBank = {
             options: [
                 { value: '5001', text: '5001' },
                 { value: '5000', text: '5000' },
-                { value: '1002', text: '1002' },
-                { value: '6001', text: '6001' }
+                { value: '1001', text: '1001' },
+                { value: '6000', text: '6000' },
+                { value: '4999', text: '4999' }
             ],
             correct: '5001',
             explanation: '📊 TCP acknowledgment = "next byte I expect to receive". Server sent Seq=5000, client responds with Ack=5001 (5000+1). Formula: Ack = ReceivedSeq + DataBytes (for SYN/FIN, +1 even with no data). This is fundamental TCP behavior tested in CCNA, Network+, and packet analysis interviews. Wrong answer like 5000 would cause retransmissions.'
@@ -870,10 +871,11 @@ const questionBank = {
             question: 'A web server receives: <code>GET /docs/../../../../windows/system32/config/sam HTTP/1.1</code><br>What is the attacker attempting?',
             type: 'radio',
             options: [
-                { value: 'sam', text: 'Accessing Windows password hashes' },
-                { value: 'config', text: 'Reading application configuration files' },
-                { value: 'upload', text: 'Uploading malicious files' },
-                { value: 'privesc', text: 'Escalating privileges in the application' }
+                { value: 'sam', text: 'Accessing Windows password hashes (SAM database)' },
+                { value: 'system', text: 'Accessing SYSTEM registry hive for boot keys' },
+                { value: 'shadow', text: 'Accessing Linux shadow password file' },
+                { value: 'hosts', text: 'Reading system hosts file for network mapping' },
+                { value: 'config', text: 'Downloading web.config with database credentials' }
             ],
             correct: 'sam',
             explanation: '⚠️ Path Traversal (Directory Traversal): Using "../" sequences to escape web root (/docs/) and navigate to C:\\Windows\\System32\\config\\SAM. SAM file = Security Account Manager database containing NTLM password hashes. If attacker downloads SAM + SYSTEM files, they can crack passwords offline. Defense: Input validation, chroot jails, whitelist allowed files. CWE-22, OWASP Top 10 #1 (Broken Access Control).'
@@ -886,11 +888,10 @@ const questionBank = {
             type: 'radio',
             options: [
                 { value: 'blind_sqli', text: 'Boolean-based blind SQL injection' },
-                { value: 'xss', text: 'DOM-based XSS payload testing' },
-                { value: 'idor', text: 'IDOR enumeration with boolean logic' },
-                { value: 'xxe', text: 'XML External Entity probing' },
-                { value: 'csrf', text: 'CSRF token validation bypass' },
-                { value: 'lfi', text: 'Local File Inclusion path testing' }
+                { value: 'time_sqli', text: 'Time-based blind SQL injection' },
+                { value: 'error_sqli', text: 'Error-based SQL injection' },
+                { value: 'union_sqli', text: 'UNION-based SQL injection' },
+                { value: 'nosql', text: 'NoSQL injection with boolean operators' }
             ],
             correct: 'blind_sqli',
             explanation: '🔍 Blind SQLi: Attacker cannot see SQL errors/data but infers database structure by observing application behavior. "AND 1=1" (always TRUE) vs "AND 1=2" (always FALSE) changes response. Time-based variant: "AND SLEEP(5)". Extract data bit-by-bit: "AND ASCII(SUBSTRING(password,1,1))>97". Tools: sqlmap, Burp Intruder. Defense: Prepared statements, WAF with pattern detection. CWE-89.'
