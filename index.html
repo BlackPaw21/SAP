@@ -1371,14 +1371,15 @@
             }
         }
 
-        @media (max-width: 768px) {
+        /* Tablet layout */
+        @media (max-width: 968px) {
             .tab-container {
                 width: 200px;
             }
 
             .content {
                 margin-left: 200px;
-                padding: 1rem;
+                padding: 1.5rem;
             }
 
             .submit-container {
@@ -1386,7 +1387,8 @@
             }
 
             .tab-btn {
-                padding: 1rem 0.75rem;
+                padding: 1.25rem 0.75rem;
+                min-height: 75px;
             }
 
             .tab-btn .tab-icon {
@@ -1394,29 +1396,351 @@
             }
 
             .tab-btn .tab-label {
-                font-size: 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .progress-info {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+        }
+
+        /* Mobile layout */
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 120px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            /* Move sidebar to bottom as horizontal tabs */
+            .tab-container {
+                position: fixed;
+                left: 0;
+                right: 0;
+                top: auto;
+                bottom: 0;
+                width: 100%;
+                height: auto;
+                max-height: 120px;
+                border-right: none;
+                border-top: 2px solid var(--border-color);
+                padding: 0.5rem;
+                z-index: 90;
+                overflow-x: auto;
+                overflow-y: hidden;
+                box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            .tab-nav {
+                flex-direction: row;
+                gap: 0.5rem;
+                padding: 0;
+                min-width: max-content;
+            }
+
+            .tab-btn {
+                flex-direction: column;
+                padding: 0.75rem 1rem;
+                min-width: 90px;
+                min-height: 90px;
+                flex-shrink: 0;
+                align-items: center;
+                text-align: center;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .tab-btn .tab-icon {
+                font-size: 1.8rem;
+            }
+
+            .tab-btn .tab-label {
+                font-size: 0.7rem;
+                line-height: 1.2;
             }
 
             .tab-btn .tab-badge {
+                font-size: 0.65rem;
+                padding: 0.15rem 0.35rem;
+            }
+
+            /* Remove margin from content */
+            .content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .submit-container {
+                margin-left: 0;
+                padding-bottom: 1rem;
+            }
+
+            /* Stack progress cards vertically */
+            .progress-info {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-icon {
+                font-size: 1.75rem;
+            }
+
+            .stat-label {
                 font-size: 0.7rem;
-                padding: 0.2rem 0.4rem;
+            }
+
+            .stat-value {
+                font-size: 1.3rem;
+            }
+
+            /* Adjust question blocks */
+            .section {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .question-block {
+                padding: 1.5rem;
+            }
+
+            .question-title {
+                font-size: 1.1rem;
+            }
+
+            .question-text {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            /* Adjust buttons for touch */
+            .check-answer-btn,
+            .submit-btn {
+                padding: 1.25rem 2rem;
+                font-size: 1rem;
+                min-height: 50px;
+            }
+
+            /* Modal adjustments */
+            .modal-content {
+                max-width: 95%;
+                margin: 1rem;
             }
 
             .modal-header {
-                padding: 1.5rem;
+                padding: 1.25rem;
             }
 
             .modal-header h2 {
-                font-size: 1.6rem;
+                font-size: 1.4rem;
             }
 
             .modal-body {
-                padding: 1.5rem;
+                padding: 1.25rem;
             }
 
             .achievement-card {
                 flex-direction: column;
                 text-align: center;
+                padding: 1rem;
+            }
+
+            /* Back to top button */
+            #back-to-top {
+                bottom: 135px;
+                right: 15px;
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+
+            #back-to-top .arrow {
+                font-size: 1.25rem;
+            }
+
+            /* Code blocks */
+            .code-block {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+
+            /* Tables */
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.75rem;
+            }
+
+            /* Larger touch targets for form elements */
+            .answer-option input[type="radio"],
+            .answer-option input[type="checkbox"] {
+                width: 1.5rem;
+                height: 1.5rem;
+                margin-right: 1rem;
+            }
+
+            .answer-option label {
+                padding: 0.75rem;
+                min-height: 50px;
+                display: flex;
+                align-items: center;
+            }
+
+            /* Smooth horizontal scroll for tabs */
+            .tab-container {
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .tab-container::-webkit-scrollbar {
+                height: 4px;
+            }
+
+            .tab-container::-webkit-scrollbar-track {
+                background: var(--bg-primary);
+            }
+
+            .tab-container::-webkit-scrollbar-thumb {
+                background: var(--border-color);
+                border-radius: 2px;
+            }
+
+            /* Dropdown select */
+            .dropdown-select {
+                font-size: 1rem;
+                padding: 0.75rem;
+                min-height: 48px;
+            }
+
+            /* Text areas */
+            textarea {
+                font-size: 1rem;
+                padding: 0.75rem;
+            }
+        }
+
+        /* Small mobile phones */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 0.8rem;
+            }
+
+            .header {
+                padding: 1.5rem 1rem 1rem;
+            }
+
+            .progress-container {
+                padding: 0.75rem 1rem;
+            }
+
+            .content {
+                padding: 0.75rem;
+            }
+
+            .section {
+                padding: 1.25rem;
+            }
+
+            .section h2 {
+                font-size: 1.3rem;
+            }
+
+            .question-block {
+                padding: 1.25rem;
+            }
+
+            .question-title {
+                font-size: 1rem;
+            }
+
+            .question-text {
+                font-size: 0.95rem;
+                padding: 0.75rem;
+            }
+
+            .tab-btn {
+                min-width: 80px;
+                padding: 0.5rem 0.75rem;
+                min-height: 85px;
+            }
+
+            .tab-btn .tab-icon {
+                font-size: 1.6rem;
+            }
+
+            .tab-btn .tab-label {
+                font-size: 0.65rem;
+            }
+
+            .check-answer-btn,
+            .submit-btn {
+                padding: 1rem 1.5rem;
+                font-size: 0.95rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.2rem;
+            }
+
+            .modal-body {
+                padding: 1rem;
+            }
+
+            #back-to-top {
+                bottom: 125px;
+                right: 10px;
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            #back-to-top .arrow {
+                font-size: 1.1rem;
+            }
+
+            .code-block {
+                font-size: 0.75rem;
+                padding: 0.75rem;
+            }
+
+            /* Larger touch targets for very small screens */
+            .answer-option input[type="radio"],
+            .answer-option input[type="checkbox"] {
+                width: 1.4rem;
+                height: 1.4rem;
+            }
+
+            .answer-option label {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            /* Modal close button */
+            .close {
+                font-size: 2.5rem;
+                width: 44px;
+                height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
     </style>
