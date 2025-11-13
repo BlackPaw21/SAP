@@ -876,6 +876,193 @@
             color: var(--accent-primary);
         }
 
+        /* Session Restore Modal */
+        .restore-modal-content {
+            max-width: 580px;
+            text-align: center;
+        }
+
+        .restore-modal-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .restore-modal-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(255, 140, 0, 0.3);
+        }
+
+        .restore-modal-message {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .restore-modal-info {
+            background: rgba(255, 140, 0, 0.1);
+            border: 2px solid rgba(255, 140, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .restore-modal-info p {
+            margin: 0.75rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .restore-modal-info strong {
+            color: var(--accent-primary);
+        }
+
+        .restore-modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .restore-modal-btn {
+            flex: 1;
+            padding: 1.25rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .restore-modal-btn.restore {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .restore-modal-btn.restore:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5);
+        }
+
+        .restore-modal-btn.new {
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+        }
+
+        .restore-modal-btn.new:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.5);
+        }
+
+        .restore-modal-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Keyboard Hints */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            opacity: 0;
+            animation: fadeInHint 0.5s ease 2s forwards;
+            max-width: 280px;
+        }
+
+        @keyframes fadeInHint {
+            to {
+                opacity: 0.9;
+            }
+        }
+
+        .keyboard-hint:hover {
+            opacity: 1;
+        }
+
+        .keyboard-hint h4 {
+            margin: 0 0 0.75rem 0;
+            color: var(--accent-primary);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .keyboard-hint p {
+            margin: 0.4rem 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .keyboard-hint kbd {
+            background: var(--bg-primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+        }
+
+        .close-hint {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease;
+        }
+
+        .close-hint:hover {
+            color: var(--accent-primary);
+        }
+
         .achievement-tabs {
             background: var(--bg-secondary);
             border-bottom: 2px solid var(--border-color);
@@ -1210,6 +1397,70 @@
             </div>
         </div>
 
+        <!-- Session Restore Modal -->
+        <div id="restore-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content restore-modal-content">
+                <div class="modal-body" style="padding: 3rem;">
+                    <div class="restore-modal-icon">💾</div>
+                    <h2 class="restore-modal-title">Welcome Back!</h2>
+                    <p class="restore-modal-message">
+                        We found a saved assessment session from your previous visit.
+                    </p>
+
+                    <div class="restore-modal-info">
+                        <p><strong>✓</strong> Your progress, score, and timer will be restored</p>
+                        <p><strong>✓</strong> Previously answered questions will be hidden</p>
+                        <p><strong>✓</strong> You'll continue exactly where you left off</p>
+                    </div>
+
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">
+                        Choose "New Session" to start fresh and clear all progress.
+                    </p>
+
+                    <div class="restore-modal-buttons">
+                        <button class="restore-modal-btn restore" onclick="restoreSession()">
+                            <span>📂</span> Restore Session
+                        </button>
+                        <button class="restore-modal-btn new" onclick="startNewSession()">
+                            <span>🆕</span> New Session
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Confirmation Modal -->
+        <div id="submit-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content restore-modal-content">
+                <div class="modal-body" style="padding: 3rem;">
+                    <div class="restore-modal-icon">⚠️</div>
+                    <h2 class="restore-modal-title">Submit Assessment?</h2>
+                    <p class="restore-modal-message">
+                        Are you ready to submit your assessment for final grading?
+                    </p>
+
+                    <div class="restore-modal-info">
+                        <p><strong>⚠️</strong> Once submitted, you cannot make any changes</p>
+                        <p><strong>⚠️</strong> Your timer will stop immediately</p>
+                        <p><strong>⚠️</strong> All progress will be saved and evaluated</p>
+                    </div>
+
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">
+                        Take your time - you can continue working if you're not ready yet.
+                    </p>
+
+                    <div class="restore-modal-buttons">
+                        <button class="restore-modal-btn restore" onclick="confirmSubmit()">
+                            <span>✅</span> Submit Now
+                        </button>
+                        <button class="restore-modal-btn new" onclick="closeSubmitModal()">
+                            <span>⏸️</span> Continue Working
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Tab Navigation -->
         <div class="tab-container">
             <div class="tab-nav">
@@ -1262,6 +1513,15 @@
 
     <!-- Back to Top Button -->
     <button id="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+
+    <!-- Keyboard Shortcuts Hint -->
+    <div id="keyboard-hint" class="keyboard-hint">
+        <button class="close-hint" onclick="document.getElementById('keyboard-hint').style.display='none'">×</button>
+        <h4>⌨️ Keyboard Shortcuts</h4>
+        <p><kbd>1</kbd>-<kbd>7</kbd> Switch categories</p>
+        <p><kbd>ESC</kbd> Close modals</p>
+        <p><kbd>↑</kbd> Scroll to top</p>
+    </div>
 
     <!-- External Question Database -->
     <script src="questions_data.js"></script>
@@ -1465,12 +1725,27 @@
             }
         });
 
-        // Close modal with ESC key
+        // Keyboard shortcuts
         document.addEventListener('keydown', function(event) {
+            // ESC to close modals
             if (event.key === 'Escape') {
-                const modal = document.getElementById('achievements-modal');
-                if (modal.style.display === 'flex') {
+                const achievementsModal = document.getElementById('achievements-modal');
+                const submitModal = document.getElementById('submit-modal');
+
+                if (achievementsModal.style.display === 'flex') {
                     closeAchievementsModal();
+                } else if (submitModal.style.display === 'flex') {
+                    closeSubmitModal();
+                }
+            }
+
+            // Number keys 1-7 to switch tabs (if no modal is open)
+            const anyModalOpen = document.querySelector('.modal-overlay[style*="flex"]');
+            if (!anyModalOpen && event.key >= '1' && event.key <= '7') {
+                const tabs = ['networking', 'webattacks', 'firewall', 'malware', 'devices', 'ports', 'logs'];
+                const tabIndex = parseInt(event.key) - 1;
+                if (tabIndex < tabs.length) {
+                    switchTab(tabs[tabIndex]);
                 }
             }
         });
@@ -1949,6 +2224,23 @@
 
             updateQuestionScore(qid, points);
             displayFeedback(qid, feedback, isCorrect ? 'correct' : (points > 0 ? 'partial' : 'incorrect'));
+
+            // Smooth scroll to next question after a short delay
+            setTimeout(() => {
+                const currentBlock = document.getElementById(`feedback-${qid}`).closest('.question-block');
+                const allBlocks = Array.from(document.querySelectorAll('.question-block'));
+                const currentIndex = allBlocks.indexOf(currentBlock);
+
+                // Find next unanswered question
+                for (let i = currentIndex + 1; i < allBlocks.length; i++) {
+                    const nextBlock = allBlocks[i];
+                    const checkBtn = nextBlock.querySelector('.check-answer-btn');
+                    if (checkBtn) {
+                        nextBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        break;
+                    }
+                }
+            }, 800);
         }
 
         function findQuestion(qid) {
@@ -1984,38 +2276,54 @@
             localStorage.setItem('socAnalystProgress', JSON.stringify(progress));
         }
 
-        function loadProgress() {
+        function checkForSavedProgress() {
             const saved = localStorage.getItem('socAnalystProgress');
             if (saved) {
                 const progress = JSON.parse(saved);
                 // Only restore if less than 24 hours old
                 if (Date.now() - progress.timestamp < 24 * 60 * 60 * 1000) {
-                    if (confirm('📋 Found saved progress from previous session.\n\nWould you like to restore it?')) {
-                        totalScore = progress.totalScore || 0;
-                        Object.assign(questionScores, progress.questionScores || {});
-                        timeRemaining = progress.timeRemaining || 5400;
-                        selectedQuestionIds = progress.selectedQuestionIds || null;
-                        document.getElementById('current-score').textContent = totalScore;
-                        const progressFill = document.getElementById('progress-fill');
-                        progressFill.style.width = `${(totalScore / maxScore) * 100}%`;
-                        updateTimerDisplay();
-                        return true; // Session restored
-                    } else {
-                        // User declined restore - clear ALL progress including achievements
-                        localStorage.removeItem('socAnalystProgress');
-                        localStorage.removeItem('achievementProgress');
-                        // Clear in-memory achievement data
-                        Object.keys(categoryProgress).forEach(category => {
-                            categoryProgress[category].clear();
-                        });
-                        answeredQuestions.clear();
-                        // Reset achievement badge counter to 0
-                        updateAchievements();
-                        return false; // User declined restore
-                    }
+                    // Show the restore modal
+                    document.getElementById('restore-modal').style.display = 'flex';
+                    return true; // Has saved progress
                 }
             }
             return false; // No saved progress
+        }
+
+        function restoreSession() {
+            const saved = localStorage.getItem('socAnalystProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                totalScore = progress.totalScore || 0;
+                Object.assign(questionScores, progress.questionScores || {});
+                timeRemaining = progress.timeRemaining || 5400;
+                selectedQuestionIds = progress.selectedQuestionIds || null;
+                document.getElementById('current-score').textContent = totalScore;
+                const progressFill = document.getElementById('progress-fill');
+                progressFill.style.width = `${(totalScore / maxScore) * 100}%`;
+                updateTimerDisplay();
+            }
+            // Close modal and render quiz
+            document.getElementById('restore-modal').style.display = 'none';
+            renderQuiz();
+            startTimer();
+        }
+
+        function startNewSession() {
+            // User chose new session - clear ALL progress including achievements
+            localStorage.removeItem('socAnalystProgress');
+            localStorage.removeItem('achievementProgress');
+            // Clear in-memory achievement data
+            Object.keys(categoryProgress).forEach(category => {
+                categoryProgress[category].clear();
+            });
+            answeredQuestions.clear();
+            // Reset achievement badge counter to 0
+            updateAchievements();
+            // Close modal and render quiz
+            document.getElementById('restore-modal').style.display = 'none';
+            renderQuiz();
+            startTimer();
         }
 
         function clearProgress() {
@@ -2030,18 +2338,23 @@
         }
 
         function showFinalScore() {
-            // Confirmation dialog
-            const confirmed = confirm('⚠️ Are you sure you want to submit your assessment?\n\nOnce submitted, you cannot make any changes.\n\nClick OK to submit or Cancel to continue working.');
+            // Show confirmation modal instead of alert
+            document.getElementById('submit-modal').style.display = 'flex';
+        }
 
-            if (!confirmed) {
-                return; // User cancelled, don't submit
-            }
+        function closeSubmitModal() {
+            document.getElementById('submit-modal').style.display = 'none';
+        }
 
+        function confirmSubmit() {
             // Stop the timer
             clearInterval(timerInterval);
 
             // Clear saved progress
             clearProgress();
+
+            // Close modal
+            document.getElementById('submit-modal').style.display = 'none';
 
             const percentage = (totalScore / maxScore) * 100;
             let grade, message;
@@ -2108,9 +2421,16 @@
         // Initialize quiz on load
         window.onload = function() {
             loadAchievementProgress(); // Load achievement progress from localStorage
-            loadProgress(); // Check for saved progress first (will restore selectedQuestionIds if available)
-            renderQuiz(); // Render quiz with saved or new random questions
-            startTimer();
+
+            // Check for saved progress and show modal if found
+            const hasSavedProgress = checkForSavedProgress();
+
+            // If no saved progress, start normally
+            if (!hasSavedProgress) {
+                renderQuiz();
+                startTimer();
+            }
+            // Otherwise, modal is shown and user will choose via buttons
         };
     </script>
 </body>
