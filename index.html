@@ -488,18 +488,18 @@
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
+            background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-tertiary) 100%);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
             cursor: pointer;
             display: none;
             align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            box-shadow: 0 4px 16px rgba(255, 140, 0, 0.5);
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
             z-index: 1000;
             animation: fadeInUp 0.3s ease;
@@ -517,12 +517,19 @@
         }
 
         #back-to-top:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.7);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.5);
+            border-color: var(--accent-primary);
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.15) 0%, rgba(255, 140, 0, 0.1) 100%);
         }
 
         #back-to-top:active {
-            transform: translateY(-2px) scale(1.02);
+            transform: translateY(-2px);
+        }
+
+        #back-to-top .arrow {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
         }
 
         .submit-btn {
@@ -1588,7 +1595,10 @@
     </div>
 
     <!-- Back to Top Button -->
-    <button id="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+    <button id="back-to-top" onclick="scrollToTop()" title="Scroll to top of page">
+        <span class="arrow">↑</span>
+        <span>Back to Top</span>
+    </button>
 
     <!-- Keyboard Shortcuts Hint -->
     <div id="keyboard-hint" class="keyboard-hint">
@@ -1596,7 +1606,6 @@
         <h4>⌨️ Keyboard Shortcuts</h4>
         <p><kbd>1</kbd>-<kbd>7</kbd> Switch categories</p>
         <p><kbd>ESC</kbd> Close modals</p>
-        <p><kbd>↑</kbd> Scroll to top</p>
     </div>
 
     <!-- External Question Database -->
