@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nul)",
+      "Bash(dir /b /s *.py *.js *.ts *.java *.go *.rs 2)",
+      "Bash(if exist .cursorrules dir .cursorrules /b)",
+      "Bash(if exist .cursorrules type .cursorrules)",
+      "Bash(if exist .githubcopilot-instructions.md type .githubcopilot-instructions.md)",
+      "Bash(if exist README.md type README.md)",
+      "Bash(dir:*)",
+      "Bash(node -c:*)",
+      "Bash(awk:*)",
+      "Bash(\"C:\\Users\\aaa05\\Desktop\\testing\\questions_data.js\")",
+      "Bash(cat:*)",
+      "Bash(\"C:\\Users\\aaa05\\Desktop\\testing\\soc_analyst_pro_new.html\")",
+      "Bash(ls:*)",
+      "Bash(wc:*)",
+      "Bash(node --check:*)",
+      "Bash(start \"\" \"C:\\Users\\aaa05\\Desktop\\testing\\soc_analyst_pro.html\")",
+      "Bash(cmd.exe /c start \"\" \"C:\\Users\\aaa05\\Desktop\\testing\\soc_analyst_pro.html\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
