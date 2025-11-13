@@ -1465,6 +1465,16 @@
             }
         });
 
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('achievements-modal');
+                if (modal.style.display === 'flex') {
+                    closeAchievementsModal();
+                }
+            }
+        });
+
         // Timer functionality (90 minutes = 5400 seconds)
         let timeRemaining = 5400;
         let timerInterval;
@@ -1587,57 +1597,150 @@
             }
 
             // Networking Section
+            const unansweredNetworking = selectedNetworking.filter(q => questionScores[q.id] === undefined);
+            const networkingPoints = unansweredNetworking.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0);
+
             html += `<div id="tab-networking" class="tab-content active">
                 <div class="section">
-                    <h2>🌐 Section 1: Network Fundamentals & Protocols (${selectedNetworking.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
-            selectedNetworking.forEach((q, idx) => {
-                html += renderQuestion(q, idx + 1, selectedNetworking.length);
-            });
+                    <h2>🌐 Section 1: Network Fundamentals & Protocols (${networkingPoints} points)</h2>`;
+
+            if (unansweredNetworking.length === 0) {
+                // All questions answered - show congratulations
+                html += `<div style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                    <h3 style="color: var(--accent-primary); font-size: 2rem; margin-bottom: 1rem;">Congratulations!</h3>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem;">You've completed all questions in this category.</p>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Move to another tab to continue your assessment.</p>
+                </div>`;
+            } else {
+                let currentNum = 1;
+                unansweredNetworking.forEach((q) => {
+                    const result = renderQuestion(q, currentNum, unansweredNetworking.length, currentNum);
+                    html += result.html;
+                    if (!result.wasSkipped) currentNum++;
+                });
+            }
+
             html += `</div></div>`;
 
             // Web Attacks Section
+            const unansweredWebAttacks = selectedWebAttacks.filter(q => questionScores[q.id] === undefined);
+            const webAttacksPoints = unansweredWebAttacks.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0);
+
             html += `<div id="tab-webattacks" class="tab-content">
                 <div class="section">
-                    <h2>🔓 Section 2: Web Application Security (${selectedWebAttacks.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
-            selectedWebAttacks.forEach((q, idx) => {
-                html += renderQuestion(q, idx + 1, selectedWebAttacks.length);
-            });
+                    <h2>🔓 Section 2: Web Application Security (${webAttacksPoints} points)</h2>`;
+            if (unansweredWebAttacks.length === 0) {
+                html += `<div style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                    <h3 style="color: var(--accent-primary); font-size: 2rem; margin-bottom: 1rem;">Congratulations!</h3>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem;">You've completed all questions in this category.</p>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Move to another tab to continue your assessment.</p>
+                </div>`;
+            } else {
+                let currentNum = 1;
+                unansweredWebAttacks.forEach((q) => {
+                    const result = renderQuestion(q, currentNum, unansweredWebAttacks.length, currentNum);
+                    html += result.html;
+                    if (!result.wasSkipped) currentNum++;
+                });
+            }
             html += `</div></div>`;
 
             // Firewall Section
+            const unansweredFirewall = selectedFirewall.filter(q => questionScores[q.id] === undefined);
+            const firewallPoints = unansweredFirewall.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0);
+
             html += `<div id="tab-firewall" class="tab-content">
                 <div class="section">
-                    <h2>🛡️ Section 3: Firewall Rules & Network Security (${selectedFirewall.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
-            selectedFirewall.forEach((q, idx) => {
-                html += renderQuestion(q, idx + 1, selectedFirewall.length);
-            });
+                    <h2>🛡️ Section 3: Firewall Rules & Network Security (${firewallPoints} points)</h2>`;
+            if (unansweredFirewall.length === 0) {
+                html += `<div style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                    <h3 style="color: var(--accent-primary); font-size: 2rem; margin-bottom: 1rem;">Congratulations!</h3>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem;">You've completed all questions in this category.</p>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Move to another tab to continue your assessment.</p>
+                </div>`;
+            } else {
+                let currentNum = 1;
+                unansweredFirewall.forEach((q) => {
+                    const result = renderQuestion(q, currentNum, unansweredFirewall.length, currentNum);
+                    html += result.html;
+                    if (!result.wasSkipped) currentNum++;
+                });
+            }
             html += `</div></div>`;
 
             // Malware Section
+            const unansweredMalware = selectedMalware.filter(q => questionScores[q.id] === undefined);
+            const malwarePoints = unansweredMalware.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0);
+
             html += `<div id="tab-malware" class="tab-content">
                 <div class="section">
-                    <h2>🦠 Section 4: Malware Analysis & Threat Detection (${selectedMalware.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
-            selectedMalware.forEach((q, idx) => {
-                html += renderQuestion(q, idx + 1, selectedMalware.length);
-            });
+                    <h2>🦠 Section 4: Malware Analysis & Threat Detection (${malwarePoints} points)</h2>`;
+            if (unansweredMalware.length === 0) {
+                html += `<div style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                    <h3 style="color: var(--accent-primary); font-size: 2rem; margin-bottom: 1rem;">Congratulations!</h3>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem;">You've completed all questions in this category.</p>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Move to another tab to continue your assessment.</p>
+                </div>`;
+            } else {
+                let currentNum = 1;
+                unansweredMalware.forEach((q) => {
+                    const result = renderQuestion(q, currentNum, unansweredMalware.length, currentNum);
+                    html += result.html;
+                    if (!result.wasSkipped) currentNum++;
+                });
+            }
             html += `</div></div>`;
 
             // Devices Section
+            const unansweredDevices = selectedDevices.filter(q => questionScores[q.id] === undefined);
+            const devicesPoints = unansweredDevices.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0);
+
             html += `<div id="tab-devices" class="tab-content">
                 <div class="section">
-                    <h2>📡 Section 5: Security Infrastructure (${selectedDevices.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
-            selectedDevices.forEach((q, idx) => {
-                html += renderQuestion(q, idx + 1, selectedDevices.length);
-            });
+                    <h2>📡 Section 5: Security Infrastructure (${devicesPoints} points)</h2>`;
+            if (unansweredDevices.length === 0) {
+                html += `<div style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                    <h3 style="color: var(--accent-primary); font-size: 2rem; margin-bottom: 1rem;">Congratulations!</h3>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem;">You've completed all questions in this category.</p>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Move to another tab to continue your assessment.</p>
+                </div>`;
+            } else {
+                let currentNum = 1;
+                unansweredDevices.forEach((q) => {
+                    const result = renderQuestion(q, currentNum, unansweredDevices.length, currentNum);
+                    html += result.html;
+                    if (!result.wasSkipped) currentNum++;
+                });
+            }
             html += `</div></div>`;
 
             // Ports Section
+            const unansweredPorts = selectedPorts.filter(q => questionScores[q.id] === undefined);
+            const portsPoints = unansweredPorts.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0);
+
             html += `<div id="tab-ports" class="tab-content">
                 <div class="section">
-                    <h2>🔌 Section 6: Ports & Protocols (${selectedPorts.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
-            selectedPorts.forEach((q, idx) => {
-                html += renderQuestion(q, idx + 1, selectedPorts.length);
-            });
+                    <h2>🔌 Section 6: Ports & Protocols (${portsPoints} points)</h2>`;
+            if (unansweredPorts.length === 0) {
+                html += `<div style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                    <h3 style="color: var(--accent-primary); font-size: 2rem; margin-bottom: 1rem;">Congratulations!</h3>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem;">You've completed all questions in this category.</p>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Move to another tab to continue your assessment.</p>
+                </div>`;
+            } else {
+                let currentNum = 1;
+                unansweredPorts.forEach((q) => {
+                    const result = renderQuestion(q, currentNum, unansweredPorts.length, currentNum);
+                    html += result.html;
+                    if (!result.wasSkipped) currentNum++;
+                });
+            }
             html += `</div></div>`;
 
             // Log Analysis Section
@@ -1648,10 +1751,15 @@
             content.innerHTML = html;
         }
 
-        function renderQuestion(q, index, total) {
+        function renderQuestion(q, index, total, currentQuestionNumber) {
+            // Skip this question if it's already been answered (when session restored)
+            if (questionScores[q.id] !== undefined) {
+                return { html: '', wasSkipped: true }; // Return empty with skip flag
+            }
+
             let html = `<div class="question-block">
                 <div class="question-title">
-                    <span>Question ${index}/${total} (${q.scaledPoints || q.points} points)</span>
+                    <span>Question ${currentQuestionNumber || index}/${total} (${q.scaledPoints || q.points} points)</span>
                 </div>
                 <div class="question-text">${q.question}</div>`;
 
@@ -1690,10 +1798,26 @@
                 <div id="feedback-${q.id}"></div>
             </div>`;
 
-            return html;
+            return { html: html, wasSkipped: false };
         }
 
         function renderLogAnalysis(selectedQuestions) {
+            // Check if all questions are answered
+            const unansweredQuestions = selectedQuestions.filter(q => questionScores[q.id] === undefined);
+
+            // If all questions answered, show congratulations
+            if (unansweredQuestions.length === 0) {
+                return `<div class="section">
+                    <h2>📊 Section 7: ${logAnalysisSection.title}</h2>
+                    <div style="text-align: center; padding: 4rem 2rem;">
+                        <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                        <h3 style="color: var(--accent-primary); font-size: 2rem; margin-bottom: 1rem;">Congratulations!</h3>
+                        <p style="color: var(--text-secondary); font-size: 1.2rem;">You've completed all questions in this category.</p>
+                        <p style="color: var(--text-muted); margin-top: 0.5rem;">Move to another tab to continue your assessment.</p>
+                    </div>
+                </div>`;
+            }
+
             // Randomly select ONE log type to display
             const logTypes = [
                 { key: 'firewall', title: 'Firewall Logs', label: 'FIREWALL LOGS' },
@@ -1704,8 +1828,8 @@
             ];
             const selectedLog = logTypes[Math.floor(Math.random() * logTypes.length)];
 
-            // Calculate total points for the selected questions
-            const totalPoints = selectedQuestions.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0);
+            // Calculate total points for the unanswered questions
+            const totalPoints = unansweredQuestions.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0);
 
             let html = `<div class="section">
                 <h2>📊 Section 7: ${logAnalysisSection.title} (${totalPoints} points)</h2>
@@ -1718,7 +1842,7 @@
                     <div class="code-block" data-label="${selectedLog.label}">${logAnalysisSection.logs[selectedLog.key]}</div>
                 </div>`;
 
-            selectedQuestions.forEach(q => {
+            unansweredQuestions.forEach(q => {
                 html += `<div class="question-block">
                     <div class="question-title">${q.question} (${q.scaledPoints || q.points} points)</div>`;
 
@@ -1881,7 +2005,14 @@
                         updateTimerDisplay();
                         return true; // Session restored
                     } else {
+                        // User declined restore - clear ALL progress including achievements
                         localStorage.removeItem('socAnalystProgress');
+                        localStorage.removeItem('achievementProgress');
+                        // Clear in-memory achievement data
+                        Object.keys(categoryProgress).forEach(category => {
+                            categoryProgress[category].clear();
+                        });
+                        answeredQuestions.clear();
                         return false; // User declined restore
                     }
                 }
@@ -1891,6 +2022,7 @@
 
         function clearProgress() {
             localStorage.removeItem('socAnalystProgress');
+            localStorage.removeItem('achievementProgress');
         }
 
         function displayFeedback(qid, message, type) {
