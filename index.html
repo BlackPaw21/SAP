@@ -1419,6 +1419,11 @@
                 font-size: 0.9rem;
             }
 
+            /* Hide keyboard shortcuts on mobile */
+            .keyboard-hint {
+                display: none !important;
+            }
+
             /* Move sidebar to bottom as horizontal tabs */
             .tab-container {
                 position: fixed;
@@ -1482,26 +1487,34 @@
                 padding-bottom: 1rem;
             }
 
-            /* Stack progress cards vertically */
+            /* Stack progress cards vertically - more compact */
             .progress-info {
                 grid-template-columns: 1fr;
-                gap: 0.75rem;
+                gap: 0.5rem;
+            }
+
+            .progress-container {
+                padding: 0.75rem 1rem;
             }
 
             .stat-card {
-                padding: 1rem;
+                padding: 0.65rem 0.85rem;
             }
 
             .stat-icon {
-                font-size: 1.75rem;
+                font-size: 1.5rem;
             }
 
             .stat-label {
-                font-size: 0.7rem;
+                font-size: 0.65rem;
+            }
+
+            .stat-label span {
+                display: none; /* Hide "(click to pause)" and "(click to expand)" text */
             }
 
             .stat-value {
-                font-size: 1.3rem;
+                font-size: 1.15rem;
             }
 
             /* Adjust question blocks */
@@ -1559,16 +1572,21 @@
                 padding: 1rem;
             }
 
-            /* Back to top button */
+            /* Back to top button - much smaller on mobile */
             #back-to-top {
-                bottom: 135px;
-                right: 15px;
-                padding: 0.75rem 1.25rem;
-                font-size: 0.9rem;
+                bottom: 130px;
+                right: 10px;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.75rem;
+                min-width: auto;
             }
 
             #back-to-top .arrow {
-                font-size: 1.25rem;
+                font-size: 1rem;
+            }
+
+            #back-to-top span:not(.arrow) {
+                display: none; /* Hide "Back to Top" text, only show arrow */
             }
 
             /* Code blocks */
@@ -1705,15 +1723,37 @@
                 padding: 1rem;
             }
 
+            /* Even smaller back-to-top button */
             #back-to-top {
                 bottom: 125px;
-                right: 10px;
-                padding: 0.5rem 1rem;
-                font-size: 0.85rem;
+                right: 8px;
+                padding: 0.4rem 0.6rem;
+                font-size: 0.7rem;
             }
 
             #back-to-top .arrow {
-                font-size: 1.1rem;
+                font-size: 0.95rem;
+            }
+
+            /* More compact stat cards */
+            .stat-card {
+                padding: 0.5rem 0.7rem;
+            }
+
+            .stat-icon {
+                font-size: 1.35rem;
+            }
+
+            .stat-label {
+                font-size: 0.6rem;
+            }
+
+            .stat-value {
+                font-size: 1rem;
+            }
+
+            .progress-container {
+                padding: 0.5rem 0.75rem;
             }
 
             .code-block {
