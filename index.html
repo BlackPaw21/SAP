@@ -117,6 +117,19 @@
             border-color: var(--accent-primary);
         }
 
+        .stat-card[onclick] {
+            cursor: pointer;
+        }
+
+        .stat-card[onclick]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(255, 140, 0, 0.3);
+        }
+
+        .stat-card[onclick]:active {
+            transform: translateY(-1px);
+        }
+
         .stat-icon {
             font-size: 2rem;
             line-height: 1;
@@ -257,68 +270,48 @@
 
         /* Removed old badge styles - replaced with achievement system */
 
-        .achievements-btn {
-            background: linear-gradient(135deg, var(--accent-color) 0%, #ff6b00 100%);
-            color: white;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .achievements-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
-        }
-
-        .achievements-btn:active {
-            transform: translateY(0);
-        }
-
         .question-text {
             color: var(--text-primary);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
+            margin-bottom: 1.75rem;
+            line-height: 1.9;
             font-size: 1.05rem;
-            background: rgba(0, 212, 255, 0.05);
-            padding: 1rem;
-            border-radius: 6px;
-            border-left: 3px solid var(--accent-primary);
+            background: rgba(255, 140, 0, 0.04);
+            padding: 1.25rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .question-text strong {
+            color: var(--accent-primary);
         }
 
         .code-block {
             background: #0d1117;
             border: 2px solid #30363d;
-            border-radius: 8px;
-            padding: 1.25rem;
-            margin: 1rem 0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.25rem 0;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             overflow-x: auto;
             line-height: 1.8;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             position: relative;
         }
 
         .code-block::before {
             content: '◉ ' attr(data-label);
             position: absolute;
-            top: -12px;
-            left: 12px;
+            top: -13px;
+            left: 14px;
             background: #0d1117;
-            padding: 0 8px;
-            color: #8b949e;
+            padding: 0.25rem 0.75rem;
+            color: var(--accent-primary);
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
+            border-radius: 4px;
         }
 
         .code-block code {
@@ -382,30 +375,41 @@
 
         .answer-option input[type="radio"],
         .answer-option input[type="checkbox"] {
-            margin-right: 0.75rem;
+            margin-right: 0.875rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+            accent-color: var(--accent-primary);
         }
 
         .dropdown-select {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.875rem;
             background: var(--bg-tertiary);
             border: 2px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             color: var(--text-primary);
             font-size: 1rem;
             font-family: 'Inter', sans-serif;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ff8c00' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
         }
 
         .dropdown-select:hover {
             border-color: var(--accent-primary);
+            background-color: var(--bg-secondary);
         }
 
         .dropdown-select:focus {
             outline: none;
             border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+            background-color: var(--bg-secondary);
         }
 
         .check-answer-btn {
@@ -482,25 +486,41 @@
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 50px;
-            height: 50px;
+            width: 56px;
+            height: 56px;
             background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
             color: white;
-            border: none;
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             cursor: pointer;
             display: none;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-size: 26px;
+            box-shadow: 0 4px 16px rgba(255, 140, 0, 0.5);
+            transition: all 0.3s ease;
             z-index: 1000;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         #back-to-top:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.7);
+        }
+
+        #back-to-top:active {
+            transform: translateY(-2px) scale(1.02);
         }
 
         .submit-btn {
@@ -553,9 +573,10 @@
 
         .input-label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
         }
 
         textarea {
@@ -608,26 +629,27 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1rem 0;
+            margin: 1.25rem 0;
             background: #0d1117;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border: 2px solid #30363d;
         }
 
         th, td {
-            padding: 0.85rem;
+            padding: 1rem;
             text-align: left;
             border-bottom: 1px solid #30363d;
         }
 
         th {
             background: #161b22;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--accent-primary);
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
 
         td {
@@ -638,6 +660,7 @@
 
         tr:hover {
             background: #161b22;
+            transition: background 0.2s ease;
         }
 
         tbody tr:last-child td {
@@ -1148,7 +1171,7 @@
                     <div class="stat-icon">🏆</div>
                     <div class="stat-content">
                         <div class="stat-label">Achievements</div>
-                        <div class="stat-value"><span id="achievement-badge-count">0</span> Unlocked</div>
+                        <div class="stat-value"><span id="achievement-badge-count">0</span></div>
                     </div>
                 </div>
             </div>
@@ -1463,7 +1486,7 @@
             const minutes = Math.floor(timeRemaining / 60);
             const seconds = timeRemaining % 60;
             const timerElement = document.getElementById('timer-display');
-            timerElement.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
             // Change color based on time remaining
             timerElement.classList.remove('warning', 'critical');
@@ -1566,7 +1589,7 @@
             // Networking Section
             html += `<div id="tab-networking" class="tab-content active">
                 <div class="section">
-                    <h2>Section 1: Network Fundamentals & Protocols (${selectedNetworking.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+                    <h2>🌐 Section 1: Network Fundamentals & Protocols (${selectedNetworking.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
             selectedNetworking.forEach((q, idx) => {
                 html += renderQuestion(q, idx + 1, selectedNetworking.length);
             });
@@ -1575,7 +1598,7 @@
             // Web Attacks Section
             html += `<div id="tab-webattacks" class="tab-content">
                 <div class="section">
-                    <h2>Section 2: Web Application Security (${selectedWebAttacks.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+                    <h2>🔓 Section 2: Web Application Security (${selectedWebAttacks.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
             selectedWebAttacks.forEach((q, idx) => {
                 html += renderQuestion(q, idx + 1, selectedWebAttacks.length);
             });
@@ -1584,7 +1607,7 @@
             // Firewall Section
             html += `<div id="tab-firewall" class="tab-content">
                 <div class="section">
-                    <h2>Section 3: Firewall Rules & Network Security (${selectedFirewall.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+                    <h2>🛡️ Section 3: Firewall Rules & Network Security (${selectedFirewall.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
             selectedFirewall.forEach((q, idx) => {
                 html += renderQuestion(q, idx + 1, selectedFirewall.length);
             });
@@ -1593,7 +1616,7 @@
             // Malware Section
             html += `<div id="tab-malware" class="tab-content">
                 <div class="section">
-                    <h2>Section 4: Malware Analysis & Threat Detection (${selectedMalware.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+                    <h2>🦠 Section 4: Malware Analysis & Threat Detection (${selectedMalware.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
             selectedMalware.forEach((q, idx) => {
                 html += renderQuestion(q, idx + 1, selectedMalware.length);
             });
@@ -1602,7 +1625,7 @@
             // Devices Section
             html += `<div id="tab-devices" class="tab-content">
                 <div class="section">
-                    <h2>Section 5: Security Infrastructure (${selectedDevices.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+                    <h2>📡 Section 5: Security Infrastructure (${selectedDevices.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
             selectedDevices.forEach((q, idx) => {
                 html += renderQuestion(q, idx + 1, selectedDevices.length);
             });
@@ -1611,7 +1634,7 @@
             // Ports Section
             html += `<div id="tab-ports" class="tab-content">
                 <div class="section">
-                    <h2>Section 6: Ports & Protocols (${selectedPorts.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
+                    <h2>🔌 Section 6: Ports & Protocols (${selectedPorts.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0)} points)</h2>`;
             selectedPorts.forEach((q, idx) => {
                 html += renderQuestion(q, idx + 1, selectedPorts.length);
             });
@@ -1685,8 +1708,8 @@
             const totalPoints = selectedQuestions.reduce((sum, q) => sum + (q.scaledPoints || q.points), 0);
 
             let html = `<div class="section">
-                <h2>Section 7: ${logAnalysisSection.title} (${totalPoints} points)</h2>
-                <p style="background: rgba(255, 165, 0, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--warning);">
+                <h2>📊 Section 7: ${logAnalysisSection.title} (${totalPoints} points)</h2>
+                <p style="background: rgba(255, 165, 0, 0.1); padding: 1.25rem; border-radius: 10px; margin-bottom: 1.5rem; border-left: 4px solid var(--warning); line-height: 1.7;">
                     Analyze the ${selectedLog.title} below and identify security incidents. Focus on patterns, anomalies, and indicators of compromise.
                 </p>
 
